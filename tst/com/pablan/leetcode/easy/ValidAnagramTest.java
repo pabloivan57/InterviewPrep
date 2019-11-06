@@ -8,8 +8,8 @@ public class ValidAnagramTest {
     public void test() {
         ValidAnagram validAnagram = new ValidAnagram();
 
-        //System.out.println(validAnagram.isAnagram("anagram", "nagaram"));
-        //System.out.println(validAnagram.isAnagram("rat", "car"));
+        System.out.println(validAnagram.isAnagram("anagram", "nagaram"));
+        System.out.println(validAnagram.isAnagram("rat", "car"));
         System.out.println(validAnagram.isAnagram("aacc", "ccac"));
     }
 }

@@ -27,14 +27,15 @@ public class ValidParentheses {
     //Output: false
     //Input: "{[]}"
     //Output: true
-    public boolean isValid(String s){
+    public boolean isValid(String s) {
+
         Stack<Character> stack = new Stack<>();
 
         for(int i = 0; i < s.length(); i++) {
             char character = s.charAt(i);
 
             if(mappings.containsKey(character)) {
-                char topElement = stack.empty() ? '#' : stack.pop();
+                char topElement = stack.isEmpty() ? '#' : stack.pop();
 
                 if(topElement != mappings.get(character)) {
                     return false;
@@ -44,6 +45,6 @@ public class ValidParentheses {
             }
         }
 
-        return stack.isEmpty();
+        return true;
     }
 }
