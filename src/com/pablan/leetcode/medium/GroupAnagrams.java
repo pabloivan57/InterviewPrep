@@ -20,6 +20,10 @@ public class GroupAnagrams {
      *
      * All inputs will be in lowercase.
      * The order of your output does not matter.
+     *
+     * Pablo's notes: The idea is to make each word a "value" that we can group in a key
+     * using the letters, for example ate could be "#1#0#0#0#1#0#0" 1a's, 0 b's, 0 c's, etc
+     * Now... it doesn't have to be # (just numbers is fine 10011)
      */
     public List<List<String>> groupAnagrams(String[] strs) {
         if (strs.length == 0) return new ArrayList<>();
