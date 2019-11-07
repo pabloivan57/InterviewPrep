@@ -15,6 +15,20 @@ public class MaximumProductSubarray {
      * Input: [-2,0,-1]
      * Output: 0
      * Explanation: The result cannot be 2, because [-2,-1] is not a subarray.
+     *
+     * Pablo's notes: The way I looked at this problem is as follows.
+     * You have three choices to make at any position in array.
+     * 1. You can get maximum product by multiplying the current element with
+     *     maximum product calculated so far.  (might work when current
+     *     element is positive).
+     * 2. You can get maximum product by multiplying the current element with
+     *     minimum product calculated so far. (might work when current
+     *     element is negative).
+     * 3.  Current element might be a starting position for maximum product sub
+     *      array
+     *
+     *     so you have to maintain current maximum product and current
+     *     minimum product.
      */
     public int maxProduct(int[] nums) {
         int[] maxSoFar = new int[nums.length];
