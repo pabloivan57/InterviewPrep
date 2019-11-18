@@ -1,0 +1,23 @@
+package com.pablan.leetcode.medium;
+
+import org.junit.Test;
+
+import java.util.Arrays;
+
+public class RotateImageTest {
+
+    @Test
+    public void test() {
+        RotateImage rotateImage = new RotateImage();
+        int[][] matrix = new int[][]{
+                {1,2,3},
+                {4,5,6},
+                {7,8,9}
+        };
+        rotateImage.rotate(matrix);
+
+        for(int i = 0; i < matrix.length; i++) {
+            System.out.println(Arrays.toString(matrix[i]));
+        }
+    }
+}
