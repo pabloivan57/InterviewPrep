@@ -18,6 +18,9 @@ public class SearchInRotatedSortedArray {
      *
      * Input: nums = [4,5,6,7,0,1,2], target = 0
      * Output: 4
+     *
+     * Pablo's notes: When dealing with rotations, look for the side that is ordered and start from there
+     * that makes it easy to find if the target is on the range, otherwise you attempt to search for the rotated portion
      */
     public int search(int[] nums, int target) {
         int low = 0;
