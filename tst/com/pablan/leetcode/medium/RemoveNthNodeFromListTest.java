@@ -20,5 +20,8 @@ public class RemoveNthNodeFromListTest {
 
         RemoveNthNodeFromList removeNthNodeFromList = new RemoveNthNodeFromList();
         removeNthNodeFromList.removeNthFromEnd(one, 2);
+
+        // Edge case with just 1 element
+        removeNthNodeFromList.removeNthFromEnd(new ListNode(1), 1);
     }
 }

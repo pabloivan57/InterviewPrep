@@ -16,6 +16,11 @@ public class RemoveNthNodeFromList {
      *
      * Given n will always be valid.
      *
+     * Pablo's notes: The idea is to always keep n distance between the nodes so that when you reach
+     * end the other pointer will be n nodes away
+     *
+     * Using a dummy as head is crafted to deal with the [1], 1 use case which asks to remove
+     * the first element. But because you must have them n spaces away this will turn to NPEs
      */
     public ListNode removeNthFromEnd(ListNode head, int n) {
         ListNode dummy = new ListNode(0);
