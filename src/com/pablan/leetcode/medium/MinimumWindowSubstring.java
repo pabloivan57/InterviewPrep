@@ -32,6 +32,9 @@ public class MinimumWindowSubstring {
             Character rightChar = s.charAt(windowEnd);
             if(occurrences.containsKey(rightChar)) {
                 occurrences.put(rightChar, occurrences.get(rightChar) - 1);
+                // Only if I have characters to match we increase, otherwise
+                // that means we have repeated characters that are not part of the pattern
+                // ex: bba ab --> b : 1, iteration 1 / b = 0, iteration 2 / b = -1 (this is not a match)
                 if(occurrences.get(rightChar) >= 0) {
                     matched++;
                 }
@@ -46,7 +49,8 @@ public class MinimumWindowSubstring {
 
                 Character leftChar = s.charAt(windowStart);
                 if(occurrences.containsKey(leftChar)) {
-                    if(occurrences.get(leftChar) == 0) {
+                    // Because of above's comment we need to avoid repeated characters
+                    if(occurrences.get(leftChar) >= 0) {
                         matched--;
                     }
                     occurrences.put(leftChar, occurrences.get(leftChar) + 1);
