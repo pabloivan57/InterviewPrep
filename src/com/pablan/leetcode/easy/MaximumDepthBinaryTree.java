@@ -1,6 +1,7 @@
 package com.pablan.leetcode.easy;
 
 import com.pablan.grokking.patterns.treebfs.TreeNode;
+import com.sun.source.tree.Tree;
 
 public class MaximumDepthBinaryTree {
 
@@ -14,19 +15,27 @@ public class MaximumDepthBinaryTree {
      * Example:
      *
      * Given binary tree [3,9,20,null,null,15,7]
+     *
+     *     3
+     *    / \
+     *   9  20
+     *     /  \
+     *    15   7
+     *
+     * return its depth = 3.
      */
     public int maxDepth(TreeNode root) {
-        return preOrder(root, 0);
+        return inOrder(root);
     }
 
-    public int preOrder(TreeNode current, int level)  {
-        if(current == null) {
-            return level;
+    public int inOrder(TreeNode node) {
+        if(node == null) {
+            return 0;
         }
 
-        int leftHeight = preOrder(current.left, level + 1);
-        int rightHeight = preOrder(current.right, level + 1);
+        int left = inOrder(node.left);
+        int right = inOrder(node.right);
 
-        return Math.max(leftHeight, rightHeight);
+        return Math.max(left, right) + 1;
     }
 }
