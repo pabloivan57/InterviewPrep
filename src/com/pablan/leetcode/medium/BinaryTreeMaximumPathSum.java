@@ -32,6 +32,16 @@ public class BinaryTreeMaximumPathSum {
      *
      * Output: 42
      *
+     * Pablo's notes: There is a special case for the following tree
+     *
+     *    2
+     *   /
+     * -1
+     *
+     * Here we only want to use the root, but if we sum left path to current value
+     * we won't get the right values. To overcome this we use a greedy approach
+     * if the left branch is negative then it doesn't make sense to add it current
+     * (even if current is negative too) so then we return 0
      */
     public int maxPathSum(TreeNode root) {
         calculatePath(root);
@@ -44,13 +54,13 @@ public class BinaryTreeMaximumPathSum {
             return 0;
         }
 
-        int leftTreeHeight = Math.max(calculatePath(currentNode.left), 0);
-        int rightTreeHeight = Math.max(calculatePath(currentNode.right), 0);
+        int left = Math.max(calculatePath(currentNode.left), 0);
+        int right = Math.max(calculatePath(currentNode.right), 0);
 
-        int path = leftTreeHeight + rightTreeHeight + currentNode.val;
+        int localPath = left + right + currentNode.val;
 
-        maxPath = Math.max(maxPath, path);
+        maxPath = Math.max(maxPath, localPath);
 
-        return Math.max(leftTreeHeight, rightTreeHeight) + currentNode.val;
+        return Math.max(left, right) + currentNode.val;
     }
 }
