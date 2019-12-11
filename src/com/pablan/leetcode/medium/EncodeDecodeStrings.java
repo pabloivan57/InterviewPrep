@@ -29,6 +29,16 @@ public class EncodeDecodeStrings {
      * strs2 in Machine 2 should be the same as strs in Machine 1.
      *
      * Implement the encode and decode methods.
+     *
+     * Pablo's Notes: Google likes to ask how could you optimize this algorithm,
+     * there is a way by following http mechanism. While encoding you transform the chunk size
+     * into a 4byte number and append to the encoded string. For example
+     *
+     * "aloha" "faa" "enc"
+     *
+     * "0005aloha0003faa0003enc"
+     *
+     * To decode you just read every 4 bit sizes and then move the pointer accordingly
      */
     // Encodes a list of strings to a single string.
     public String encode(List<String> strs) {
