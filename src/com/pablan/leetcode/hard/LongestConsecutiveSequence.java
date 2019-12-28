@@ -3,7 +3,7 @@ package com.pablan.leetcode.hard;
 import java.util.HashSet;
 import java.util.Set;
 
-public class LongestConsecutiveString {
+public class LongestConsecutiveSequence {
 
     /**
      * Given an unsorted array of integers, find the length of the longest consecutive elements sequence.
