@@ -8,7 +8,7 @@ public class MeetingRoomsIITest {
     public void test() {
 
         MeetingRoomsII meetingRoomsII = new MeetingRoomsII();
-        int[][] intervals = new int[][] {{7,10}, {2,4}};
-        System.out.println(meetingRoomsII.minMeetingRooms(intervals));
+        System.out.println(meetingRoomsII.minMeetingRooms(new int[][] {{7,10}, {2,4}}));
+        System.out.println(meetingRoomsII.minMeetingRooms(new int[][] {{0, 30}, {5, 10}, {15, 20}}));
     }
 }
