@@ -17,6 +17,10 @@ public class MeetingRoomsII {
      *
      * Input: [[7,10],[2,4]]
      * Output: 1
+     *
+     * Pablo's notes: The trick here is that you need to order them by two dimensions, first start time and then end time
+     * a heap fits perfectly. You keep adding start times in order and then pop end times in order too. At any point in
+     * time the heap will give you how many rooms are required
      */
     public int minMeetingRooms(int[][] intervals) {
         List<Interval> intervalsList = new ArrayList<>();
