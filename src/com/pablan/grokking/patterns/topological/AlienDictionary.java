@@ -4,17 +4,33 @@ import java.util.*;
 
 public class AlienDictionary {
 
-    /*
-        Input: Words: ["ywx", "xww", "xz", "zyy", "zwz"]
-        Output: yxwz
-        Explanation: From the given words we can conclude the following ordering among its characters:
-
-        1. From "ywx" and "xww", we can conclude that 'y' comes before 'x'.
-        2. From "xww" and "xz", we can conclude that 'w' comes before 'z'
-        3. From "xz" and "zyy", we can conclude that 'x' comes before 'z'
-        4. From "zyy" and "zwz", we can conclude that 'y' comes before 'w'
-
-        From the above two points we can conclude that the correct character order is: "yxwz"
+    /**
+     * There is a new alien language which uses the latin alphabet. However, the order among letters are unknown to you.
+     * You receive a list of non-empty words from the dictionary, where words are sorted lexicographically by the
+     * rules of this new language. Derive the order of letters in this language.
+     *
+     * Example 1:
+     *
+     * Input:
+     * [
+     *   "wrt",
+     *   "wrf",
+     *   "er",
+     *   "ett",
+     *   "rftt"
+     * ]
+     *
+     * Output: "wertf"
+     * Example 2:
+     *
+     * Input:
+     * [
+     *   "z",
+     *   "x"
+     * ]
+     *
+     * Output: "zx"
+     *
      */
     public String findOrder(String[] words) {
         if(words == null || words.length == 0) {
