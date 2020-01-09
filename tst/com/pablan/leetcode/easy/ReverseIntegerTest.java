@@ -1,6 +1,5 @@
 package com.pablan.leetcode.easy;
 
-import com.pablan.leetcode.medium.ReverseInteger;
 import org.junit.Test;
 
 public class ReverseIntegerTest {

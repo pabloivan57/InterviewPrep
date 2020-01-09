@@ -1,4 +1,4 @@
-package com.pablan.leetcode.medium;
+package com.pablan.leetcode.easy;
 
 public class ReverseInteger {
 
