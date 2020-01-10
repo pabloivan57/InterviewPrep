@@ -19,5 +19,16 @@ public class SetMatrixZerosTest {
         for(int i = 0; i < matrix1.length; i++) {
             System.out.println(Arrays.toString(matrix1[i]));
         }
+
+        int[][] matrix2 = new int[][] {
+                {0,1,2,0},
+                {3,4,5,2},
+                {1,3,1,5}
+        };
+        setMatrixZeros.setZeroes(matrix2);
+
+        for(int i = 0; i < matrix2.length; i++) {
+            System.out.println(Arrays.toString(matrix2[i]));
+        }
     }
 }

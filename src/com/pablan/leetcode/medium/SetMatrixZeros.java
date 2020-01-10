@@ -53,7 +53,42 @@ public class SetMatrixZeros {
      * and check if [i][0] or [j][0] == '0'. If that's the case then we proceed to make the cell 0
      */
     public void setZeroes(int[][] matrix) {
+        // Step one, mark the matrix
+        for(int i = 0; i < matrix.length; i++) {
+            for(int j = 0; j < matrix[0].length; j++) {
 
+                if(matrix[i][j] == 0) {
+                    // mark both rows
+                    matrix[i][0] = 0;
+                    matrix[0][j] = 0;
+                }
+            }
+        }
 
+        // Step two, check if cells have to be set to 0
+        // Start from 1,1 otherwise you have the risk of making the entire matrix 0
+        for(int i = 1; i < matrix.length; i++) {
+            for(int j = 1; j < matrix[0].length; j++) {
+                if(matrix[i][0] == 0 || matrix[0][j] == 0) {
+                    matrix[i][j] = 0;
+                }
+            }
+        }
+
+        // Check if first row to be made 0
+        for(int i = 0; i < matrix.length; i++) {
+            if(matrix[0][0] == 0) {
+                matrix[i][0] = 0;
+            }
+        }
+
+        // Check if first column has to be made 0
+        for(int j = 0; j < matrix[0].length; j++) {
+            if(matrix[0][0] == 0) {
+                matrix[0][j] = 0;
+            }
+        }
+
+        return;
     }
 }
