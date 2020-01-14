@@ -8,7 +8,7 @@ public class HouseRobberIITest {
     public void test() {
         HouseRobberII houseRobberII = new HouseRobberII();
         //System.out.println(houseRobberII.rob(new int[] {2,3,2}));
-        //System.out.println(houseRobberII.rob(new int[] {1,2,3,1}));
-        System.out.println(houseRobberII.rob(new int[] {1,2}));
+        System.out.println(houseRobberII.rob(new int[] {1,2,3,1}));
+        //System.out.println(houseRobberII.rob(new int[] {1,2}));
     }
 }

@@ -31,6 +31,30 @@ public class HouseRobberII {
      * Pick the max of both
      */
     public int rob(int[] nums) {
-       return 0;
+       return Math.max(rob(nums, 0, nums.length - 2), rob(nums, 1, nums.length - 1));
+    }
+
+    public int rob(int[] nums, int start, int end) {
+        int n = start - end + 1;
+
+        int dp[] = new int[n + 1];
+
+        // case with no houses
+        dp[0] = 0;
+
+        // case with just 1 house
+        dp[1] = nums[start];
+
+        for(int i = 2; i <= end; i++) {
+            // case 1 I don't steal this house
+            int profit1 = dp[i - 1];
+
+            // case 2 I steal this house
+            int profit2 = nums[start + 2] + dp[i - 2];
+
+            dp[i] = Math.max(profit1, profit2);
+        }
+
+        return dp[n];
     }
 }
