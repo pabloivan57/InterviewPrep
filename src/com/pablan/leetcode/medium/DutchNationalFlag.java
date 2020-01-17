@@ -17,30 +17,33 @@ public class DutchNationalFlag {
      * Example 2:
      * Input: [2, 2, 0, 1, 2, 0]
      * Output: [0 0 1 2 2 2 ]
+     *
+     * Pablo's notes: what is tricky here is that end should not move current
      */
     public void sort(int[] nums) {
-        // all elements < low are 0 and all elements > high are 2
-        // all elements from >= low < i are 1
-        int low = 0, high = nums.length - 1;
-        for (int i = 0; i <= high;) {
-            if (nums[i] == 0) {
-                swap(nums, i, low);
-                // increment 'i' and 'low'
-                i++;
-                low++;
-            } else if (nums[i] == 1) {
-                i++;
-            } else { // the case for arr[i] == 2
-                swap(nums, i, high);
-                // decrement 'high' only, after the swap the number at index 'i' could be 0, 1 or 2
-                high--;
+        int current = 0;
+        int start = 0;
+        int end = nums.length - 1;
+
+        int pivot = 1;
+
+        while(current <= end) {
+            if(nums[current] < pivot) {
+                swap(nums, start, current);
+                start++;
+                current++;
+            } else if(nums[current] > pivot) {
+                swap(nums, end, current);
+                end--;
+            } else {
+                current++;
             }
         }
     }
 
-    private static void swap(int[] arr, int i, int j) {
-        int temp = arr[i];
-        arr[i] = arr[j];
-        arr[j] = temp;
+    private void swap(int[] nums, int idx1, int idx2) {
+        int aux = nums[idx1];
+        nums[idx1] = nums[idx2];
+        nums[idx2] = aux;
     }
 }
