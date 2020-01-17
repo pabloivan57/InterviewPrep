@@ -1,5 +1,7 @@
 package com.pablan.leetcode.collection.hard;
 
+import java.util.PriorityQueue;
+
 public class WiggleSortII {
 
     /**
@@ -25,5 +27,50 @@ public class WiggleSortII {
      */
     public void wiggleSort(int[] nums) {
 
+        // Step 1: find median
+        int median = findKthLargest(nums, (nums.length + 1 / 2));
+
+        // Step 2: 3 way partitioning around the median
+        int n = nums.length;
+        int i = 1; //(2) elements larger than the 'median' are put into the first odd slots
+        int j = (n - 1) / 2 * 2; //(1) elements smaller than the 'median' are put into the last even slots
+        int x = j;
+
+        for(int k = 0; k < n;k++){
+            if(nums[x] > median){
+                swap(nums, x, i);
+                i += 2;
+            } else if(nums[x] < median){
+                swap(nums, x, j);
+                j = j - 2;
+                x = x - 2;
+                if(x < 0) x = n / 2 * 2 - 1;
+            } else {
+                x = x - 2;
+                if(x < 0) x = n / 2 * 2 - 1;
+            }
+        }
+    }
+
+    private void swap(int[] nums, int i, int j) {
+        int aux = nums[i];
+        nums[i] = nums[j];
+        nums[j] = aux;
+    }
+
+    // Find Kth largest in O(nlogn)
+    public int findKthLargest(int[] nums, int k) {
+        PriorityQueue<Integer> minHeap = new PriorityQueue<>((a, b) -> a - b);
+
+        for(int i = 0; i < nums.length; i++) {
+            minHeap.offer(nums[i]);
+
+            while(minHeap.size() > k) {
+                minHeap.poll();
+            }
+        }
+
+        // At this point I will have the k largest in the array, just need the smallest
+        return minHeap.poll();
     }
 }
