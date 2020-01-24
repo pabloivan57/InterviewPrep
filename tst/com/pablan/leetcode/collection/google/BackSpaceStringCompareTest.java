@@ -1,6 +1,5 @@
 package com.pablan.leetcode.collection.google;
 
-import com.pablan.leetcode.google.BackspaceStringCompare;
 import org.junit.Test;
 
 public class BackSpaceStringCompareTest {

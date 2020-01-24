@@ -1,4 +1,4 @@
-package com.pablan.leetcode.google;
+package com.pablan.leetcode.collection.google;
 
 import java.util.Stack;
 
