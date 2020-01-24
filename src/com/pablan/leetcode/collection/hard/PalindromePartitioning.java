@@ -1,7 +1,7 @@
 package com.pablan.leetcode.collection.hard;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class PalindromePartitioning {
 
@@ -20,9 +20,29 @@ public class PalindromePartitioning {
      * ]
      */
     public List<List<String>> partition(String s) {
-        return null;
+        List<List<String>> lists = new ArrayList<>();
+        List<String> list = new ArrayList<>();
+        backtrack(lists, list, s, 0, s.length() - 1);
+        return lists;
     }
 
+    public void backtrack(List<List<String>> lists, List<String> list, String s, int startIndex, int endIndex) {
+        // base case
+        if(startIndex >= endIndex || isPalindrome(s, startIndex, endIndex)) {
+            list.add(s.substring(startIndex, endIndex + 1));
+            lists.add(new ArrayList<>(list));
+            list.remove(list.size() - 1);
+            return;
+        }
+
+        for(int i = startIndex; i <= endIndex; i++) {
+            if(isPalindrome(s, startIndex, i)) {
+                list.add(s.substring(startIndex, i + 1));
+                backtrack(lists, list, s, i + 1, endIndex);
+                list.remove(list.size() - 1);
+            }
+        }
+    }
 
     public int partitionCuts(String s) {
         return partitionCutsRecursive(s, 0, s.length() - 1);

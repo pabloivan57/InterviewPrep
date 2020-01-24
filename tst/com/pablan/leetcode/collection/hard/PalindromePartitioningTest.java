@@ -9,9 +9,9 @@ public class PalindromePartitioningTest {
     @Test
     public void test() {
         PalindromePartitioning palindromePartitioning = new PalindromePartitioning();
-        //List<List<String>> result =  palindromePartitioning.partition("aab");
+        List<List<String>> result =  palindromePartitioning.partition("aab");
 
-        //result.forEach(list -> System.out.println(list));
+        result.forEach(list -> System.out.println(list));
 
         System.out.println(palindromePartitioning.partitionCuts("aab"));
     }
