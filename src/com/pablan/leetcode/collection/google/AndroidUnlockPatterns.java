@@ -33,6 +33,6 @@ public class AndroidUnlockPatterns {
      * Line 1 - 9 is valid because it passes through key 5, which had been selected in the pattern.
      */
     public int numberOfPatterns(int m, int n) {
-
+        return 0;
     }
 }
