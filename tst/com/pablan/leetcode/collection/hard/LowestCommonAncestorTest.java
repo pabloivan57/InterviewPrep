@@ -27,6 +27,6 @@ public class LowestCommonAncestorTest {
         one.right = eight;
 
         LowestCommonAncestor lowestCommonAncestor = new LowestCommonAncestor();
-        System.out.println(lowestCommonAncestor.lowestCommonAncestor(three, five, one).val);
+        System.out.println(lowestCommonAncestor.lowestCommonAncestor(three, five, one).val); // should be 3
     }
 }

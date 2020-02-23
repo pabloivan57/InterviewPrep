@@ -30,25 +30,25 @@ public class LowestCommonAncestor {
      * Pablo's notes: The idea is to count when I find p or q and send back that 1 all the way back to the top
      */
     public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
-        ans = null;
-        recurse(root, p, q);
+        traverse(root, p , q);
         return ans;
     }
 
-    private boolean recurse(TreeNode root, TreeNode p, TreeNode q) {
+    private int traverse(TreeNode root, TreeNode p, TreeNode q) {
         if(root == null) {
-            return false;
+            return 0;
         }
 
-        int left = recurse(root.left, p, q) ? 1 : 0;
-        int right = recurse(root.right, p, q) ? 1 : 0;
+        int left = traverse(root.left, p, q);
+        int right = traverse(root.right, p, q);
 
         int middle = (root.val == p.val || root.val == q.val) ? 1 : 0;
 
         if(left + right + middle >= 2) {
+            // found lowest common ancestor
             ans = root;
         }
 
-        return middle > 0;
+        return middle > 0 ? 1 : 0;
     }
 }
