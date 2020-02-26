@@ -32,10 +32,57 @@ public class SurroundedRegions {
      * we just flip everything to X and if we see the special character we flip it to 'O'
      */
     public void solve(char[][] board) {
+        for(int row = 0 ; row < board.length; row++) {
+            for(int column = 0; column < board[0].length; column++) {
+                if(board[row][column] == 'O' && isBorder(row, column, board)) {
+                    // start a dfs here
+                    boolean[][] visited = new boolean[board.length][board[0].length];
+                    dfs(row, column, visited, board);
+                }
+            }
+        }
 
+        // flip everything to X except special character
+        for(int row = 0 ; row < board.length; row++) {
+            for (int column = 0; column < board[0].length; column++) {
+                if(board[row][column] == '*') {
+                    board[row][column] = 'O';
+                } else {
+                    board[row][column] = 'X';
+                }
+            }
+        }
     }
 
     private void dfs(int row, int column, boolean visited[][], char[][] board) {
-     return;
+        // If it's out of limits or visited
+        if(row < 0 || row >= board.length || column < 0 || column >= board[0].length || visited[row][column] || board[row][column] == 'X') {
+            return;
+        }
+
+        // Visit
+        visited[row][column] = true;
+
+        if(board[row][column] == 'O') {
+            board[row][column] = '*';
+        }
+
+        // dfs
+        // down
+        dfs(row + 1, column, visited, board);
+        // up
+        dfs(row - 1, column, visited, board);
+        // left
+        dfs(row, column - 1, visited, board);
+        // right
+        dfs(row, column + 1, visited, board);
+    }
+
+    private boolean isBorder(int row, int column, char[][] board) {
+        if(row == 0 || row == board.length - 1 || column == 0 || column == board[0].length - 1) {
+            return true;
+        }
+
+        return false;
     }
 }
