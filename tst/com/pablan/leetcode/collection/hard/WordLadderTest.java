@@ -16,6 +16,6 @@ public class WordLadderTest {
         dict.add("dog");
         dict.add("lot");
         dict.add("cog");
-        wordLadder.ladderLength("hit", "cog", dict);
+        System.out.println(wordLadder.ladderLength("hit", "cog", dict)); // Should be 5
     }
 }
