@@ -16,6 +16,13 @@ public class BinaryTreeMaximumPathSumTest {
         one.right = three;
 
         BinaryTreeMaximumPathSum binaryTreeMaximumPathSum = new BinaryTreeMaximumPathSum();
-        System.out.println(binaryTreeMaximumPathSum.maxPathSum(one));
+        System.out.println(binaryTreeMaximumPathSum.maxPathSum(one)); // should be 6
+
+        TreeNode twoAlt = new TreeNode(2);
+        TreeNode oneNegative = new TreeNode(-1);
+
+        twoAlt.left = oneNegative;
+        binaryTreeMaximumPathSum = new BinaryTreeMaximumPathSum();
+        System.out.println(binaryTreeMaximumPathSum.maxPathSum(twoAlt)); // should be 2
     }
 }
