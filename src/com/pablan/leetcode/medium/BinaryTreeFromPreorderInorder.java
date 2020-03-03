@@ -8,10 +8,10 @@ import java.util.Map;
 public class BinaryTreeFromPreorderInorder {
 
     // start from preorder
-    int pre_idx = 0;
+    int preorder_idx;
     Map<Integer, Integer> inOrderIndexes = new HashMap<>();
-    int[] inorder;
     int[] preorder;
+    int[] inorder;
 
     /**
      *
@@ -26,33 +26,34 @@ public class BinaryTreeFromPreorderInorder {
      *       9        15,20,7 -> to be arranged
      */
     public TreeNode buildTree(int[] preorder, int[] inorder) {
-        this.inorder = inorder;
         this.preorder = preorder;
+        this.preorder_idx = 0;
+        this.inorder = inorder;
 
         for(int i = 0; i < inorder.length; i++) {
             inOrderIndexes.put(inorder[i], i);
         }
 
         return createTree(0, preorder.length);
-
     }
 
-    private TreeNode createTree(int leftPointer, int rightPointer) {
-        if(leftPointer == rightPointer) {
+    public TreeNode createTree(int start, int end) {
+        if(start == end) {
             return null;
         }
 
-        int rootValue = preorder[pre_idx];
-        TreeNode root = new TreeNode(rootValue);
-        // splits into left and right subtree
-        int splitIndex = inOrderIndexes.get(rootValue);
+        if(preorder_idx >= preorder.length) {
+            return null;
+        }
 
-        // visited root, move to the next preOrder
-        pre_idx++;
+        TreeNode node = new TreeNode(preorder[preorder_idx++]);
 
-        root.left = createTree(leftPointer, splitIndex);
-        root.right = createTree(splitIndex + 1, rightPointer);
+        int inorder_idx = inOrderIndexes.get(node.val);
 
-        return root;
+        node.left = createTree(start, inorder_idx);
+        node.right = createTree(inorder_idx + 1, end);
+
+        return node;
     }
+
 }
