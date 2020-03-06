@@ -65,4 +65,34 @@ public class EqualSubsetSumPartition {
 
         return option1 || option2;
     }
+
+    public boolean canPartitionBottomUp(int targetSum, int[] nums) {
+        boolean[][] dp = new boolean[nums.length][targetSum + 1];
+
+        // with just one element
+        for(int i = 0; i < nums.length; i++) {
+            if(nums[i] == targetSum) {
+                dp[i][0] = true;
+            }
+        }
+
+        // build table
+        for(int i = 0; i < nums.length; i++) {
+            for(int j = 1; j < targetSum; j++) {
+                // if I can pick this number
+                boolean option1 = false;
+                boolean option2 = false;
+                if(nums[i] < j) {
+                    option1 = dp[i - 1][j - nums[i]];
+                }
+
+                // case2 skip it
+                option2 = dp[i - 1][j];
+
+                dp[i][j] = option1 || option2;
+            }
+        }
+
+        return dp[nums.length][targetSum];
+    }
 }
