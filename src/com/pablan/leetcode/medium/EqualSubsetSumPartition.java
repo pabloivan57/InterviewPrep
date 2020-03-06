@@ -77,6 +77,7 @@ public class EqualSubsetSumPartition {
         }
 
         // build table
+        // for each "capacity" (knapsack pattern) check if I can choose the number
         for(int i = 0; i < nums.length; i++) {
             for(int j = 1; j < targetSum; j++) {
                 // if I can pick this number
