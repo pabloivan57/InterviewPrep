@@ -57,4 +57,25 @@ public class HouseRobberII {
 
         return dp[n];
     }
+
+    public int robRecursive(int[] nums) {
+        int case1 = robRecursive(nums, 0, nums.length - 2);
+        int case2 = robRecursive(nums, 1, nums.length - 1);
+
+        return Math.max(case1, case2);
+    }
+
+    public int robRecursive(int[] nums, int start, int end) {
+        if(start > end) {
+            return 0;
+        }
+
+        // Case1: I rob house at start
+        int case1 = nums[start] + robRecursive(nums, start + 2, end);
+
+        // Case2: I don't rob house at start
+        int case2 = robRecursive(nums, start + 1, end);
+
+        return Math.max(case1, case2);
+    }
 }
