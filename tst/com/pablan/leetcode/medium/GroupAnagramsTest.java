@@ -9,5 +9,11 @@ public class GroupAnagramsTest {
         GroupAnagrams groupAnagrams = new GroupAnagrams();
 
         System.out.println(groupAnagrams.groupAnagrams(new String[] {"eat", "tea", "tan", "ate", "nat", "bat"}));
+        // should be
+        /* [
+                ["ate","eat","tea"],
+                ["nat","tan"],
+                ["bat"]
+            ] */
     }
 }

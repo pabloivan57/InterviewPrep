@@ -26,31 +26,31 @@ public class GroupAnagrams {
      * Now... it doesn't have to be # (just numbers is fine 10011)
      */
     public List<List<String>> groupAnagrams(String[] strs) {
-        if (strs.length == 0) return new ArrayList<>();
-        Map<String, List<String>> result = new HashMap<>();
+        int[] counter = new int[26];
 
-        int[] count = new int[26];
-        for(String s : strs) {
-            Arrays.fill(count,  0);
+        HashMap<String, List<String>> groups = new HashMap<>();
 
-            for(char character : s.toCharArray()) {
-                count[character - 'a']++;
+        for(int i = 0; i < strs.length; i++) {
+            Arrays.fill(counter, 0);
+            String word = strs[i];
+            char[] letters = word.toCharArray();
+
+            for(int j = 0; j < letters.length; j++) {
+                counter[letters[j] - 'a']++;
             }
 
-            StringBuilder sb = new StringBuilder();
-            for(int i = 0; i < count.length; i++) {
-                sb.append("#");
-                sb.append(count[i]);
-            }
-            String key = sb.toString();
-
-            if(!result.containsKey(key)) {
-                result.put(key, new ArrayList<>());
+            StringJoiner keyJoiner = new StringJoiner("#");
+            for(int j = 0; j < counter.length; j++) {
+                keyJoiner.add(Integer.toString(counter[j]));
             }
 
-            result.get(key).add(s);
+            String key = keyJoiner.toString();
+            if(groups.get(key) == null) {
+                groups.put(key, new ArrayList<>());
+            }
+            groups.get(key).add(word);
         }
 
-        return new ArrayList<>(result.values());
+        return new ArrayList<>(groups.values());
     }
 }
