@@ -33,7 +33,9 @@ public class GraphValidTree {
         }
 
         boolean[] visited = new boolean[vertices];
-        hasCycle(graph, 0, -1, visited);
+        if(hasCycle(graph, 0, -1, visited)) {
+            return false;
+        };
 
         // make sure all vertices are connected
         for(int i = 0; i < vertices; i++) {
