@@ -1,7 +1,5 @@
 package com.pablan.leetcode.medium;
 
-import java.util.Arrays;
-
 public class MaximumCircularSubarray {
 
     /**
@@ -19,8 +17,28 @@ public class MaximumCircularSubarray {
      * Output: 4
      * Explanation: Subarray [2,-1,3] has maximum sum 2 + (-1) + 3 = 4
      *
+     * Here the trick is as follows:
+     *
+     * Max subarray = Max (Max subarray, Total - min Subarray)
+     *
+     * This is because there are 2 cases
+     * 1.- The max subarray is not rotated, and is in the middle of the array (normal Kadane works here)
+     * 2.- The max subarray is rotated, in that case we know total - min Subarray is max
+     *
      */
     public int maxSubarraySumCircular(int[] A) {
-        return 0;
+        int minSum = 0;
+        int maxSum = 0;
+        int total = 0;
+
+        for(int i = 0; i < A.length; i++) {
+            maxSum = Math.max(A[i], A[i] + maxSum);
+            minSum = Math.min(A[i], A[i] + minSum);
+            total += A[i];
+        }
+
+        int result = Math.max(maxSum, total - minSum);
+
+        return result;
     }
 }
