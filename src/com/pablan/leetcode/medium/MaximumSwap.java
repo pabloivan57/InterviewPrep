@@ -29,7 +29,7 @@ public class MaximumSwap {
         for(int i = 0; i < digits.length; i++) {
             for(int j = 9; j > digits[i] - '0'; j--) {
                 if(index[j] > i) {
-                    swap(digits, i, j);
+                    swap(digits, i, index[j]);
                     // you can only swap at most once
                     return Integer.valueOf(new String(digits));
                 }
