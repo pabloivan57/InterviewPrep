@@ -34,26 +34,24 @@ public class MeetingRoomsII {
     }
 
     public int minMeetingRooms(List<Interval> intervals) {
-        // Ascending by start time
         Collections.sort(intervals, (a, b) -> a.start - b.start);
 
-        // keep the min end time of the rooms
-        int minMeetingRooms = 0;
         PriorityQueue<Interval> minHeap = new PriorityQueue<>((a, b) -> a.end - b.end);
-        minHeap.add(intervals.get(0));
-
-        for(int i = 1; i < intervals.size(); i++) {
+        int maxCourses = 0;
+        for(int i = 0; i < intervals.size(); i++) {
             Interval interval = intervals.get(i);
-            if(minHeap.peek().end < interval.start) {
+            minHeap.add(interval);
+
+            while(minHeap.peek() != null && minHeap.peek().end < interval.start) {
                 minHeap.poll();
             }
 
-            minHeap.offer(interval);
-
-            minMeetingRooms = Math.max(minMeetingRooms, minHeap.size());
+            if(minHeap.size() > maxCourses) {
+                maxCourses = minHeap.size();
+            }
         }
 
-        return minMeetingRooms;
+        return maxCourses;
     }
 
     private class Interval {
