@@ -46,30 +46,24 @@ public class MergeIntervals {
     }
 
     public List<Interval> merge(List<Interval> intervals) {
-        if(intervals.size() == 0) return Collections.emptyList();
-
         Collections.sort(intervals, (a, b) -> a.start - b.start);
 
         List<Interval> result = new ArrayList<>();
         Interval interval = intervals.get(0);
-        int start = interval.start;
-        int end = interval.end;
-
         for(int i = 1; i < intervals.size(); i++) {
-            Interval currentInterval =  intervals.get(i);
-            if(currentInterval.start  <= end) {
-                // They overlap, we have to make it a single interval
-                end = Math.max(end, currentInterval.end);
+            Interval current = intervals.get(i);
+            // If it doesn't overlap
+            if(interval.end < current.start) {
+                result.add(interval);
+                interval = current;
             } else {
-                // tracking interval doesn't overlap, add it to the list
-                result.add(new Interval(start, end));
-                start = currentInterval.start;
-                end = currentInterval.end;
+                interval.start = Math.min(interval.start, current.start);
+                interval.end = Math.max(interval.end, current.end);
             }
         }
 
-        // we need to add tracking interval at the end
-        result.add(new Interval(start, end));
+        // Add last interval that is left
+        result.add(interval);
 
         return result;
     }

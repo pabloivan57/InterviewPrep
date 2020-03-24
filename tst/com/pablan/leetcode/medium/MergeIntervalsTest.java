@@ -18,7 +18,18 @@ public class MergeIntervalsTest {
 
         int[][] result = mergeIntervals.merge(input);
         for(int i = 0; i < result.length; i++) {
-            System.out.println(Arrays.toString(result[i]));
+            System.out.println(Arrays.toString(result[i])); // should be [0, 5]
+        }
+
+        int[][] input2 = new int[][] {
+                {1,3},
+                {2,6},
+                {8,10},
+                {15,18}
+        };
+        result = mergeIntervals.merge(input2);
+        for(int i = 0; i < result.length; i++) {
+            System.out.println(Arrays.toString(result[i])); // should be [1,6],[8,10],[15,18]
         }
     }
 }
