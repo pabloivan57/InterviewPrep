@@ -17,6 +17,17 @@ public class MaximumSwap {
      * Input: 9973
      * Output: 9973
      * Explanation: No swap.
+     *
+     * When resolving this think of the following
+     * 1.- Take index 0 (the most important)
+     * 2.- Look for the max number at the right of 0
+     * 3.- Swap it
+     *
+     * Now, why we just don't find the max and then swap it with 0. Because for this one
+     * 98863 it wouldn't work. You can in the case there is no max to the right side keep doing
+     * it until there is one max but then that could be quadratic. A better approach is this one
+     * take note of the indexes of each number and then go from max to min checking if there is something
+     * more than current number with index > current index
      */
     public int maximumSwap(int number) {
         char[] digits = Integer.toString(number).toCharArray();
