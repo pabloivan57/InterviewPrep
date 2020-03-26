@@ -24,6 +24,11 @@ public class NonOverlappingIntervals {
      * Output: 2
      * Explanation: You need to remove two [1,2] to make the rest of intervals non-overlapping.
      *
+     * Pablo's notes: Here you have to go greedy, you have to prefer the interval that has a lesser
+     * chance to overlap others, in other words the smaller. For example imagine
+     * [1,7],[2,3],[4,5],[6,7]
+     * if you keep comparing 1 to everything you will end up with 3 removals, whereas if you remove 1 from the
+     * beginning, you have only 1
      */
     public int eraseOverlapIntervals(int[][] intervals) {
         List<Interval> intervalList = new ArrayList<>();
