@@ -17,5 +17,7 @@ public class WordBreakTest {
         dict.add("dog");
 
         System.out.println(wordBreak.wordBreak("catsanddog", dict));
+        List<List<String>> words = wordBreak.wordBreakRecursive("catsanddog", dict);
+        words.forEach(w -> System.out.println(w));
     }
 }

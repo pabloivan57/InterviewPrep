@@ -1,5 +1,6 @@
 package com.pablan.leetcode.medium;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -28,17 +29,44 @@ public class WordBreak {
      *
      */
     public boolean wordBreak(String s, List<String> wordDict) {
-        Set<String> wordDictSet=new HashSet(wordDict);
         boolean[] dp = new boolean[s.length() + 1];
         dp[0] = true;
-        for (int i = 1; i <= s.length(); i++) {
-            for (int j = 0; j < i; j++) {
-                if (dp[j] && wordDictSet.contains(s.substring(j, i))) {
+
+        for(int i = 1; i <= s.length(); i++) {
+            for(int j = 0; j < i; j++) {
+                if(dp[j] && wordDict.contains(s.substring(j, i))) {
                     dp[i] = true;
                     break;
                 }
             }
         }
+
         return dp[s.length()];
+    }
+
+    public List<List<String>> wordBreakRecursive(String s, List<String> wordDict) {
+        List<List<String>> result = new ArrayList<>();
+        List<String> sequence = new ArrayList<>();
+        findWord(s, 0, s.length(), sequence, wordDict, result);
+        return result;
+    }
+
+    private void findWord(String s, int start, int end, List<String> sequence,
+                                  List<String> wordDict,
+                                  List<List<String>> result) {
+        if(start >= end) {
+            result.add(new ArrayList<>(sequence));
+            return;
+        }
+
+        for(int i = start; i <= end; i++) {
+            String prefix = s.substring(start, i);
+            if(wordDict.contains(prefix)) {
+                sequence.add(prefix);
+                findWord(s, i, end, sequence, wordDict, result);
+                //backtrack
+                sequence.remove(sequence.size() - 1);
+            }
+        }
     }
 }
