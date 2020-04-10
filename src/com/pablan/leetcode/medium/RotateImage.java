@@ -37,7 +37,11 @@ public class RotateImage {
     public void rotate(int[][] matrix) {
         int n = matrix.length;
 
-        // transpose matrix
+        /** transpose matrix
+         *  This is magic, if you flip the values across the diagonals you will rotate 90 degrees
+         *  Actually: https://medium.com/front-end-weekly/matrix-rotation-%EF%B8%8F-6550397f16ab
+         *  explains it.
+         */
         for (int i = 0; i < n; i++) {
             for (int j = i; j < n; j++) {
                 int tmp = matrix[j][i];
@@ -46,7 +50,21 @@ public class RotateImage {
             }
         }
 
-        // reverse each row
+        /** reverse each row
+           In this block what you are doing is simply this
+           imagine:
+           1 7 4
+           2 8 3
+           3 2 1
+
+           For each row, you take first and last elements and then flip it,
+           you do it col / 2 times to not flip values twice. For example:
+           -  switch 1 and 4  1 7 4 == 4 7 1
+           -  now move pointers left and right, and flip 4 7 1. Switch 7 with 7 == 4 7 1
+           -  now STOP! otherwise you will flip 1 and 4 again, returning to original state
+
+            The n - 1 is because you're using matrix.length instead of matrix.length - 1
+        */
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n / 2; j++) {
                 int tmp = matrix[i][j];
