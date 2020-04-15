@@ -41,10 +41,10 @@ public class SpiralMatrix {
             List<Integer> leftColumn = new ArrayList<>();
 
             for(int j = first; j < last; j++) {
-                upperRow.add(matrix[i][first]);
-                rightColumn.add(matrix[last][i]);
-                lowerRow.add(matrix[last][last]);
-                leftColumn.add(matrix[last][i]);
+                upperRow.add(matrix[first][j]);
+                rightColumn.add(matrix[j][last]);
+                lowerRow.add(matrix[last][last - j]);
+                leftColumn.add(matrix[last - j][i]);
             }
 
             result.addAll(upperRow);
