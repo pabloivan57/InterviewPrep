@@ -26,38 +26,43 @@ public class MinimumDominoRotationsForEqualRow {
      * 1 <= A[i], B[i] <= 6
      * 2 <= A.length == B.length <= 20000
      *
-     * Pablo's notes: Greedy approach, just check 1 A element against everything or 2 B against everything
+     * Pablo's notes: Greedy approach, just check 1 A element against everything or 2 B against everything.
+     * This approach goes better with my thought process. The idea is straight forward,
+     * let's assume none of the numbers in top row starting from A[0] are equal to target, then rotations = A.length
+     * of course if neither A or B match target you return -1
      */
     public int minDominoRotations(int[] A, int[] B) {
-        int rotations = check(A[0], A, B);
+        int up = check(A[0], A, B);
+        int down = check(B[0], A, B);
 
-        if(rotations != -1 || A[0] == B[0]) {
-            return rotations;
-        }
+        // if we can match all in either side
+        if(up == -1 && down == -1) return -1;
+        if(up == - 1) return down;
+        if(down == -1) return up;
 
-        return check(B[0], A, B);
+        return Math.min(up, down);
     }
 
-    public int check(int target, int[] A, int[] B) {
+    public int check(int val, int[] A, int[] B) {
+        int top = A.length;
+        int bottom = B.length;
 
-        int rotations_A = 0;
-        int rotations_B = 0;
-
-        // The point of this method is to calculate how many rotations would you need in row A or row B
-        // to make all numbers equal
-        for(int i = 1; i < A.length; i++) {
-            if(A[i] != target && B[i] != target) {
+        for(int i = 0; i < A.length; i++) {
+            // If we don't have a number in both sides we can't full fill
+            if(A[i] != val && B[i] != val) {
                 return -1;
             }
 
-            // If we reach this point we are saying that one value must be equal at target
-            else if(A[i] != target) {
-                rotations_A++;
-            } else if(B[i] != target) {
-                rotations_B++;
+            if(A[i] == val) {
+                // turns out I already have a number in place, now I just need top(A.length) - 1 rotations
+                top--;
+            }
+
+            if(B[i] == val) {
+                bottom--;
             }
         }
 
-        return Math.min(rotations_A, rotations_B);
+        return Math.min(top, bottom);
     }
 }
