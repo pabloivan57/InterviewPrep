@@ -1,5 +1,6 @@
-package com.pablan.leetcode.collection.google;
+package com.pablan.leetcode.collection.google.medium;
 
+import com.pablan.leetcode.collection.google.medium.MinimumDominoRotationsForEqualRow;
 import org.junit.Test;
 
 public class MinimumDominoRotationsForEqualRowTest {

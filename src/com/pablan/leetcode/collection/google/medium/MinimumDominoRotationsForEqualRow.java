@@ -1,4 +1,4 @@
-package com.pablan.leetcode.collection.google;
+package com.pablan.leetcode.collection.google.medium;
 
 public class MinimumDominoRotationsForEqualRow {
 
