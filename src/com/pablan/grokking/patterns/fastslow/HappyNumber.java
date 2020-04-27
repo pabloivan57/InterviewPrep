@@ -4,30 +4,33 @@ public class HappyNumber {
 
     public boolean find(int number) {
         int slow = number;
-        int fast = 0;
+        int fast = number;
 
-        while(slow != 1) {
-            if (slow == fast) return false;
+        while(slow != 1 && fast != 1) {
+            slow = squareOfNumbers(slow);
+            fast = squareOfNumbers(squareOfNumbers(fast));
 
-            slow = squareOfDigits(slow);
-            fast = squareOfDigits(squareOfDigits(slow));
+            if(slow == fast) {
+                return false;
+            }
         }
 
         return true;
     }
 
-    private int squareOfDigits(int number) {
-        int digit = number / 10;
-        int remainder = number % 10;
-        int result = digit * digit;
+    private int squareOfNumbers(int number) {
+        int total = 0;
 
-        while(remainder > 10) {
-            digit = digit / 10;
-            result += digit * digit;
-            remainder = remainder % 10;
+        while(number >= 10) {
+            int remainder = number % 10;
+            int digit = number / 10;
+
+            total = total + (digit * digit);
+            number = remainder;
         }
 
-        result += remainder * remainder;
-        return result;
+        total = total + (number * number);
+        return total;
     }
+
 }
