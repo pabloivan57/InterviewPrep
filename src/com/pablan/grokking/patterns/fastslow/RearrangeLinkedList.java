@@ -11,30 +11,33 @@ public class RearrangeLinkedList {
             fast = fast.next.next;
         }
 
-        ListNode headSecondHalf = reverse(slow);
-        ListNode headFirstHalf = head;
+        ListNode p1 = head;
+        ListNode p2 = reverse(slow);
 
-        while(headFirstHalf != null && headSecondHalf != null) {
-            ListNode tmp = headFirstHalf.next;
-            headFirstHalf.next = headSecondHalf;
-            headFirstHalf = tmp;
+        boolean p1Turn = true;
+        ListNode dummy = new ListNode(0);
+        ListNode current = dummy;
+        while (p1 != null && p2 != null) {
+            if(p1Turn) {
+                current.next = p1;
+                p1 = p1.next;
+            } else {
+                current.next = p2;
+                p2 = p2.next;
+            }
 
-            tmp = headSecondHalf.next;
-            headSecondHalf.next = headFirstHalf;
-            headSecondHalf = tmp;
+            current = current.next;
+            p1Turn = !p1Turn;
         }
-
-        if(headFirstHalf != null)
-            headFirstHalf.next = null;
+        
     }
 
     public ListNode reverse(ListNode head) {
-        ListNode current = head;
         ListNode prev = null;
+        ListNode current = head;
 
         while(current != null) {
             ListNode next = current.next;
-
             current.next = prev;
             prev = current;
             current = next;
