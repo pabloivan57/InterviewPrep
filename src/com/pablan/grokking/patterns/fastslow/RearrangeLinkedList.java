@@ -29,7 +29,7 @@ public class RearrangeLinkedList {
             current = current.next;
             p1Turn = !p1Turn;
         }
-        
+
     }
 
     public ListNode reverse(ListNode head) {
