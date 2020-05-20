@@ -1,9 +1,6 @@
 package com.pablan.leetcode.collection.google.medium;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.TreeMap;
 
 public class HandOfStraights {
 
@@ -26,58 +23,40 @@ public class HandOfStraights {
      * Output: false
      * Explanation: Alice's hand can't be rearranged into groups of 4.
      *
+     * Pablo's notes: 2 things to remember
+     *
+     * 1.- The key is to notice that we should always start with the smallest card in our hand,
+     * this work because in a straight hand the smallest will always be the start of a sequence
+     *
+     * 2.- There is a structure called TreeMap that keeps the keys in natural order, think of a
+     * minHeap with data associated. The structure is perfect here because we want to always
+     * pick the smallest but at the same time manipulate the entries. You could do
+     * this with a minHeap but then it's hard to find the nodes, and you would end up using a
+     * map to find the nodes + minHeap to always pick the smallest. Plus removing values with
+     * just one entry from the min heap
      */
     public boolean isNStraightHand(int[] hand, int W) {
-        Map<Integer, Integer> occurrences = new HashMap<>();
-        Map<Integer, List<SequenceData>> openSequences = new HashMap<>();
-
+        TreeMap<Integer, Integer> occurrences = new TreeMap<>();
         for(int i = 0; i < hand.length; i++) {
             occurrences.put(hand[i], occurrences.getOrDefault(hand[i], 0) + 1);
         }
 
-        for(int i = 0; i < hand.length; i++) {
-            int number = hand[i];
-            if(occurrences.get(number) == 0) {
-                continue;
-            }
-
-            List<SequenceData> sequencePossibilities = openSequences.get(number);
-            // append use case
-            if(sequencePossibilities != null && !sequencePossibilities.isEmpty()) {
-                SequenceData seq = sequencePossibilities.get(0);
-                // If we will reach the desired length for a sequence, just close it
-                if(seq.seqLength + 1 == W) {
-                    openSequences.remove(seq.seqLength);
-                } else {
-                    // try to extend sequence
-                    sequencePossibilities.remove(seq);
-
-                    SequenceData newSeq = new SequenceData(seq.value + 1, seq.seqLength + 1);
-                    List<SequenceData> newSeqPossibilities =  openSequences.getOrDefault(newSeq.value, new ArrayList<>());
-                    newSeqPossibilities.add(newSeq);
-                    openSequences.put(newSeq.value, newSeqPossibilities);
+        while(occurrences.size() > 0) {
+            int minVal = occurrences.firstKey();
+            for(int seq = minVal; seq < minVal + W; seq++) {
+                // if there is not such a sequence, fail, it's impossible to have a straight
+                if(!occurrences.containsKey(seq)) {
+                    return false;
                 }
-            } else if(occurrences.get(number) > 0) {
-                // Create new sequence use case
-                SequenceData newSeq = new SequenceData(number + 1, 1);
-                List<SequenceData> newSeqPossibilities = openSequences.getOrDefault(newSeq.value, new ArrayList<>());
-                newSeqPossibilities.add(newSeq);
-                openSequences.put(newSeq.value, newSeqPossibilities);
-            } else {
-                return false;
+
+                if(occurrences.get(seq) == 1) {
+                   occurrences.remove(seq);
+                } else if(occurrences.get(seq) > 1) {
+                    occurrences.put(seq, occurrences.get(seq) - 1);
+                }
             }
         }
 
-        return openSequences.isEmpty();
-    }
-
-    private static class SequenceData {
-        int value;
-        int seqLength;
-
-        public SequenceData(int value, int seqLength) {
-            this.value = value;
-            this.seqLength = seqLength;
-        }
+        return true;
     }
 }
