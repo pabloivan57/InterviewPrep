@@ -28,6 +28,14 @@ public class EqualSubsetSumPartition {
      * Output: false
      *
      * Explanation: The array cannot be partitioned into equal sum subsets.
+     *
+     * Pablo's notes: So how do you get two even parts of something? You divide it by 2,
+     * this problem is asking exactly that. Can we find a subset that equals the whole things divided by 2?
+     * And that is a very well know algorithm, a number in the set CAN or CANNOT be part of the solution. Dp exercise
+     *
+     * Also, note something. Why is it called even number? because it can be divided by 2.. therefore
+     * the total of nums MUST be an even number otherwise there is no points in trying this solution. Of course that is
+     * because we use integers
      */
     public boolean canPartition(int[] nums) {
         if(nums == null || nums.length == 0) {
