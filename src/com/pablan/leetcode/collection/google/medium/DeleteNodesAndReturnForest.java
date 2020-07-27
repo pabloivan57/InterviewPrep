@@ -29,6 +29,19 @@ public class DeleteNodesAndReturnForest {
      *        1
      *    2       3 -> this is deleted      In other words, 1.right == null at the end
      * 4    5   6  7
+     *
+     * Also, this uses an interesting technique. If you want to modify the results of the children. For example:
+     * Here, we want to remove from the tree to_delete, in other words, we want to return a root node
+     * that only goes until that node was just removed. For example if we remove 3 then root goes
+     *           1
+     *     2        null
+     *  4    5
+     *  
+     *  When you want to alter the nodes of the tree then you keep a reference to root and when going to the next
+     *  level, you reassign the node. For example
+     *
+     *  current.left = inOrder(current.left) // This way you can return null if current.left should be removed
+     *  current.right = inOrder(current.right)
      */
     public List<TreeNode> delNodes(TreeNode root, int[] to_delete) {
         Set<Integer> toDelete = new HashSet<>();
