@@ -28,99 +28,91 @@ public class SplitArrayIntoConsecutiveSequences {
      * Input: [1,2,3,4,4,5]
      * Output: False
      *
-     * Pablo's notes: This explanation helps to understand what the algorithm does,
-     * notice this is a different example
+     * Pablo's notes: The intuition behind it is a follows:
+     * 1.- Try to make sure you have at least  a sequence of 3,
+     * 2.- Once you do try extending that sequence, but if at any point
+     *      you find another 3  sequences, make sure you get that as well
+     *      and now try to extend both.
      *
-     * "Took me a while to understand "appendfreq"
-     * Here is how I see "appendfreq"
+     * 3.- To accomplish extending sequences you keep a 'buffer' of possible
+     *     extension points, and when you find a number that qualifies simply
+     *     add it to an existing sequence.
      *
-     * eg: [1,2,3,4, 5]
-     * // i =1
-     * we fall in 3 case "start of a new subsequence"
-     * we make 2, 3 freq 0
-     * and put <4, 1> in appendfreq, this mean I have 1 subsequence can continue from 4
+     * From the moment you found the first 3 sequence you prioritize extending it,
+     * that's why this algorithm it's 'greedy"
      *
-     * //i =2, 3
-     * we continue
+     * From leetcode:
      *
-     * //i = 4
-     * we fall in 2 case since <4, 1> is in appendfreq
-     * now this subsequence should end in 5
-     * so we decreace <4, 1> to <4, 0> since we no longer have subsequence can continue from 4
-     * and we put <5, 1> in appendfreq since now we have a subsequence can continue from 5"
+     * "I was super confused also so I paste and ran the code through example 1 and 2.
+     * What I learned is the appendFreq is use for tracking of numbers that can use to extend existence subsequences
+     * (could be name more like: numberNeedForExtendingExistingSubSeq).
+     * For example 1, the code will decrement frequency for 1, 2, 3 because that form a subsequence of at
+     * least length 3, and put 4 on the appendFreq (the number that can extend the subsequence).
+     * The code always prioritizes extending existing subsequences over creating new subsequence.
+     * So when the code get to nummber 4, it adds 4 to the existing sequence by decrementing frequency by 1 and
+     * mark 5 as the next number that can extends the subsequence by putting it on the appendFreq.
+     * Instead of generating subsequences until the frequency of numbers runs out to check for valid,
+     * the code check for condition in which a number cannot become a subsequence of length of three or cannot be use
+     * to append to existing subsequences."
      *
+     * The perfect example is
      *
+     * 1 2 3 3 4 4 5 5
      *
-     * Now, explanation as of why it works
-     * //
-     * // How to solve?
-     * //
-     * // (e.g.) create sequence from (3,4,5,6,7), (5,6,7), (6,7,8,9,10)
-     * //
-     * //        -> 3, 4, 5, 5, 6, 6, 6, 7, 7, 7, 8, 9, 10
-     * //
-     * //        visually we are solving
-     * //
-     * //                    *  *
-     * //                 *  *  *
-     * //           *  *  *  *  *  *  *  *
-     * //           3  4  5  6  7  8  9  10
-     * //
-     * // we are creating open ended sequence as scanning through 3 to 10
-     * //
-     * // At 3, there is no open sequence so [3) will be created
-     * //
-     * // At 4, #(4) == #(open sequence)
-     * //   so don't close the open sequences, just extends them
-     * //    [3 4)
-     * //
-     * // At 5, #(5) > #(open sequences)  : (2 > 1)
-     * //   so we extends existing open sequences, plus new sequence from '5'
-     * //     [3 4 5)
-     * //         [5)
-     * //
-     * // At 6, same situation as at '5',
-     * //     [3 4 5 6)
-     * //         [5 6)
-     * //           [6)
-     * //
-     * // At 7, same as at 4 #(7) == #(seq)
-     * //
-     * //     [3 4 5 6 7)
-     * //         [5 6 7)
-     * //           [6 7)
-     * //
-     * // At 8, #(8) < #(seq) so we must close sequences if we can
-     * //   (if not return false)
-     * //
-     * //     [3 4 5 6 7] --> done
-     * //         [5 6 7] --> done
-     * //           [6 7 8)
-     * //
-     * // At 9 and 10, we are just extending sequences
-     * //           [6 7 8 9 10)
-     * //
-     * // At the end, if we can close all open sequences, return 'true'
-     * // If not return 'false'
-     * //
+     * Visually it looks like
+     *
+     *      * * *
+     *  * * * * *
+     *  1 2 3 4 5
+     *
+     *  so you look at 1 and notice there is a possible 3 sequence
+     *
+     *  1, 2, 3
+     *
+     *  then you move to 3 and notice there is another 3 sequence
+     *
+     *  3, 4, 5
+     *
+     *  now you go to 3 and notice... you can't make another 3 sequence but you can
+     *  add to previous
+     *
+     *  1, 2 , 3, 4. However, now I'm missing a 5 so I try to find it and mark it
+     *  as an extension point
+     *
+     *  now you go to 5 and notice... you can add to previous sequence
+     *
+     *  1, 2, 3, 4, 5. And you're done going through all numbers
      */
     public boolean isPossible(int[] nums) {
-        Map<Integer, Integer> freq = new HashMap<>(), appendfreq = new HashMap<>();
-        for (int i : nums) freq.put(i, freq.getOrDefault(i,0) + 1);
-        for (int i : nums) {
-            if (freq.get(i) == 0) continue;
-            else if (appendfreq.getOrDefault(i,0) > 0) {
-                appendfreq.put(i, appendfreq.get(i) - 1);
-                appendfreq.put(i+1, appendfreq.getOrDefault(i+1,0) + 1);
-            }
-            else if (freq.getOrDefault(i+1,0) > 0 && freq.getOrDefault(i+2,0) > 0) {
-                freq.put(i+1, freq.get(i+1) - 1);
-                freq.put(i+2, freq.get(i+2) - 1);
-                appendfreq.put(i+3, appendfreq.getOrDefault(i+3,0) + 1);
-            }
-            else return false;
-            freq.put(i, freq.get(i) - 1);
+        Map<Integer, Integer> occurrences = new HashMap<>();
+        // Count occurrences
+        for (int i = 0; i < nums.length; i++) {
+            occurrences.put(nums[i], occurrences.getOrDefault(nums[i], 0) + 1);
         }
+
+        Map<Integer, Integer> seqExtensionPossibilities = new HashMap<>();
+        for (int i = 0; i < nums.length; i++) {
+            if (occurrences.get(nums[i]) == 0) continue;
+            if (seqExtensionPossibilities.getOrDefault(i, 0) > 0) {
+                // This number could be added to a previous sequence, see next block
+                seqExtensionPossibilities.put(i, seqExtensionPossibilities.get(i) - 1);
+                // Add next number in the sequence to possibilities
+                seqExtensionPossibilities.put(i + 1, seqExtensionPossibilities.getOrDefault(i + 1, 0) + 1);
+            } else if (occurrences.get(nums[i]) > 0
+                    && occurrences.getOrDefault(nums[i + 1], 0) > 0
+                    && occurrences.getOrDefault(nums[i + 1], 0) > 0) {
+                // We can create a sequence of minimum 3
+                occurrences.put(nums[i] + 1, occurrences.get(nums[i] + 1) - 1);
+                occurrences.put(nums[i] + 2, occurrences.get(nums[i] + 2) - 1);
+                // The number that could extends this sequence is
+                seqExtensionPossibilities.put(nums[i] + 3, 1);
+            } else {
+                // there is a number that can't go into sequence or create a new one, return false
+                return false;
+            }
+            occurrences.put(i, occurrences.get(i) - 1);
+        }
+
         return true;
     }
 }
