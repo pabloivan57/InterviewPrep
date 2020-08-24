@@ -32,49 +32,54 @@ public class StringTransformsIntoAnotherString {
      * Both str1 and str2 contain only lowercase English letters.
      *
      * Pablo's notes:
-     * So, the problem in this exercise is when we transform to something that was already assigned, because that
-     * triggers a chain reaction.
      *
-     * 1) aabcc : ccdee
-     * key -> value
-     * a   ->  c   Note how this doesn't have a cycle
-     * b   ->  d
-     * c   ->  e
+     * Look at this image: https://trello.com/c/Nfy08I0d
      *
-     * a -> c ; b -> d ; c -> e ! not a problem because c has not been assigned to any key
+     * It will help you understand two key use cases, mapping is not possible when
      *
-     * 2) ace : cea
+     * 1.- One letter in str1 maps to 2 letters in str2, this is sort of obvious
      *
-     * key -> value
-     * a   ->  c
-     * c   ->  e
-     * e   ->  a
+     * abb -> adc, b maps to d and c... if you change b to d = add then you have add you you need the last
+     *             d to be c, you can't do that... try it, d -> c = acc
      *
-     * a -> c ; c -> e; e -> a ! a is a problem, because the transform would look something like this:
-     *  ce e->a == ce a->c == ce c->e == ce e->a (we came back to first element)
+     * In any case a more elaborate example is:
      *
-     * Now, to break this cycle we simply map to a temporary character
-     *  a -> x == xce
-     *  c -> e == xee
-     *  e -> a == xea
-     *  x -> c == cea
+     * aabccc -> ccdeef, try it... there is no way  to do this
      *
-     *  We can keep breaking cycles as long as there is a letter that has not been used
+     * 2.- there is a loop in the transformation, for example:
      *
-     *  Important 2: In the case of leetcode : codeleet, there has to be a transformation 1 by 1
-     *  l -> c
-     *  e -> o
-     *  e -> d .. but e is already going to o, so we can't transform, Otherwise you will end up with something like
-     *  leetcode -> ceetcode -> cootcode -> cddtcode -> cootcode? (can't match 1 by 1)
+     * You see, if you have a cyclic transformation like a -> c and c -> a
+     * then you to transform a string like aaaccc to cccaaa; you can't go a -> c
+     * because you won't be able to distinguish which 'c's you want to transform back later.
+     * So you need to swap these with some 3rd character to break the cyclic transformation
+     * (may be aaaccc -> eeeccc -> eeeaaa -> cccaaa).
+     * But if the destination string already expecting all 26 letters to be converted from some other letter,
+     * then it is impossible to find a 3rd char like e above, to break the cycle. Hence we check if the mapping range is <=26.
+     *
+     * BUT HOW THIS IS DIFFERENT FROM CASE 1? Well, you do have 1:1 mappings is just that it's cyclical
+     * a -> c   and not     a -> c
+     * c -> a               a -> d
+     *
+     *
      */
     public boolean canConvert(String str1, String str2) {
-        if (str1.equals(str2)) return true;
-        Map<Character, Character> dp = new HashMap<>();
-        for (int i = 0; i < str1.length(); ++i) {
-            if (dp.getOrDefault(str1.charAt(i), str2.charAt(i)) != str2.charAt(i))
-                return false;
-            dp.put(str1.charAt(i), str2.charAt(i));
+        if(str1.equals(str2)) {
+            return true;
         }
-        return new HashSet<Character>(dp.values()).size() < 26;
+
+        Map<Character, Character> mappings = new HashMap<>();
+        for(int i = 0; i < str1.length(); i++) {
+              if(!mappings.containsKey(str1.charAt(i))) {
+                  mappings.put(str1.charAt(i), str2.charAt(i));
+              } else {
+                  if(mappings.get(str1.charAt(i)) != str2.charAt(i)) {
+                      return false;
+                  }
+              }
+        }
+
+        // This is so we just eliminate duplicates, remember as per the rules above
+        // multiple letters can map to one char, but one char can't map to multiple letterrrs
+        return new HashSet<Character>(mappings.values()).size()  <  26;
     }
 }
