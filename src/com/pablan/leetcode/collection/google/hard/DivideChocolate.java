@@ -29,8 +29,62 @@ public class DivideChocolate {
      * Output: 5
      * Explanation: You can divide the chocolate to [1,2,2], [1,2,2], [1,2,2]
      *
+     * Pablo's notes:
+     *
+     * This problem is exactly the same as SplitArrayLargestSum, the difference is that opposed to SplitArrayLargestSum
+     * this problem asks you to maximize the minimum. To understand look at the example below
+     *
+     * [1, 2, 3, 4, 5, 6, 7, 8, 9]. You have 9 pieces. Let's say you have 9 friends. Not possible to split in 10 pieces
+     * including you. Now, let's say you have 8 friends, ok you can but the minimum sweetness is the minimum piece
+     * in other words 1, now let's say you have 0 friends then the minimum sweetness is the whole chunk
+     *
+     * So, you established two boundaries the minimum sweetness piece and the whole bar
+     *
+     * BY MAXIMIZING THE MINIMUM this means... I know the minimum piece I can get is 1 given 8 friends... but let's say
+     * I have 7 friends. Can I get 2 sweetness? How about 3 sweetness? Basically the algorithm binary searches those
+     *
+     * Another subtle difference is that because you're maximizing the minimum when you select pieces you will include
+     * those in the array until the value is more than target. Because you are finding with at least sweetness as opposed
+     * to at most sweetness. Basically instead to sum = nums[i] you do sum = 0 to represent that nums[i] was part of the
+     * last chunk
+     *
      */
     public int maximizeSweetness(int[] sweetness, int K) {
-        return 0;
+        int left = 0;
+        int right = 0;
+
+        // Calculate boundaries
+        for(int i = 0; i < sweetness.length; i++) {
+            left = Math.min(left, sweetness[i]);
+            right += sweetness[i];
+        }
+
+        while(left < right) {
+            int mid = left + ((right - left) / 2);
+            if(canSplit(mid,  K + 1, sweetness)) {
+                right = mid;
+            } else {
+                left = mid + 1;
+            }
+        }
+
+        return left;
+    }
+
+    public boolean canSplit(int target, int pieces, int[] sweetness) {
+        int sum = 0;
+        for(int i = 0; i < sweetness.length; i++) {
+            sum = sum + sweetness[i];
+            if(sum > target) {
+                pieces--;
+                sum = 0;
+            }
+
+            if(pieces <= 0) { // <= because pieces is expected to be 1 based, if you get rid of 1 you have nothingness
+                return false; // I need more pieces of what I have available
+            }
+        }
+
+        return true;
     }
 }
