@@ -15,5 +15,11 @@ public class CyclicSortTest {
         cyclicSort.sort(arr);
 
         System.out.println(Arrays.toString(arr));
+
+        arr = new int[] {1, 5, 6, 4, 3, 2};
+
+        cyclicSort.sort(arr);
+
+        System.out.println(Arrays.toString(arr));
     }
 }
