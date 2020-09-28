@@ -39,6 +39,9 @@ public class LongestConsecutiveSequenceDiffWithLimit {
      *
      *  Input: nums = [4,2,2,2,4,4,2,2], limit = 0
      *  Output: 3
+     *
+     *  Pablo's notes: Simple variable window 'key is consecutive' where you are interested in max / min pairs
+     *  so simply keep track of them. You do that using a minHeap and maxHeap
      */
     public int longestSubarray(int[] nums, int limit) {
         int windowStart = 0;
