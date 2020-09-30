@@ -29,6 +29,10 @@ public class FindMissingPositive {
     public int firstMissingPositive(int[] nums) {
         int i = 0;
 
+        if(nums == null || nums.length == 0) {
+            return 1;
+        }
+
         while(i < nums.length) {
             int j = nums[i] - 1; // This number represents the position the number tells me it belongs to
                                  //  4, 2, 3, 1 --> in this case number in position 0 is telling me it
