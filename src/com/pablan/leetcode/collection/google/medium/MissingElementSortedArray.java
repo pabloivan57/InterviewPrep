@@ -41,17 +41,26 @@ public class MissingElementSortedArray {
         int left = 0;
         int right = nums.length - 1;
 
-        int missing = nums[right] - nums[left] - (right - left); // This means how many should be there compared
-                                                                  // to how many I have
+        int numbers = nums[right] - nums[left] + 1; // the + 1 accounts  for the lower  end that is present
+        int positions = right - left + 1;
+        int missing = numbers - positions; // This means how many should be there compared
+                                           // to how many I have
 
         if(missing < k) {
             return nums[right] + k  - missing; //  If they want example 3 where I have more k than missing numbers
         }
 
-        while(left <= right) {
+        while(left < right) {
+            // edge case for 4,7,9,10
+            if(left == right - 1) {
+                break;
+            }
+
             int middle = left + ((right - left) / 2);
 
-            missing = nums[middle] - nums[left] - (middle - left);
+            numbers = nums[middle] - nums[left] + 1;
+            positions = middle - left + 1;
+            missing = numbers - positions;
 
             if(missing > k) {
                 // too  many missing, we need to find the far left
