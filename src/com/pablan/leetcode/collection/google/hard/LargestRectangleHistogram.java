@@ -22,7 +22,8 @@ public class LargestRectangleHistogram {
      * Input: [2,1,5,6,2,3]
      * Output: 10
      *
-     * Pablo's notes: https://www.youtube.com/watch?v=VNbkzsnllsU
+     * Pablo's notes: https://www.youtube.com/watch?v=VNbkzsnllsU. Update, scratch that
+     * this is a much better explanation: https://tech.pic-collage.com/algorithm-largest-area-in-histogram-84cc70500f0c
      *
      * However, not exactly translated the same way it's shown in here. The idea is to use a stack
      * to keep track of potential new rectangles that might be larger
@@ -32,27 +33,47 @@ public class LargestRectangleHistogram {
     public int largestRectangleArea(int[] heights) {
         Stack<Integer> positions = new Stack<>();
 
+        int i = 0;
         int maxArea = 0;
-        for(int i = 0; i <  heights.length; i++)  {
-            int nextHeight = heights[i];
+        while(i < heights.length) {
+            if(positions.isEmpty() || heights[positions.peek()] < heights[i]) {
+                positions.push(i);
+                i++;
+            } else {
+                int prevBiggerNumberIndex = positions.pop();
 
-            while(heights[positions.peek()] > nextHeight) {
-                // This means we have to evaluate the rectangle as possible max
-                int currentPosition = positions.peek();
-                int currentHeight = heights[positions.pop()];
+                int distance = 0;
+                if(positions.isEmpty()) {
+                    // this means there are no values with less than this height
+                    // so current height applies until the beginning
+                    distance = i;
+                } else {
+                    distance = i - prevBiggerNumberIndex;
+                }
 
-                int prevPosition = positions.empty() ? -1 : positions.peek(); // If there is no previous minimum
-                                                                              // then we have to consider all positions starting from 0
-                                                                              // as part of the rectangle
-                                                                              // Remember that if there is a minimum, it
-                                                                              // will be evaluated next
+                int height = heights[prevBiggerNumberIndex];
+                int area = distance * height;
 
-                int localArea = currentHeight * (currentPosition - prevPosition - 1);
-
-                maxArea = Math.max(maxArea, localArea);
+                maxArea = Math.max(maxArea, area);
             }
+        }
 
-            positions.push(i);
+        // at this point if the stack has something it will be an ascending bar
+        while(!positions.isEmpty()) {
+            int prevBiggerNumberIndex = positions.pop();
+
+            int distance = 0;
+            if(positions.isEmpty()) {
+                // this means there are no values with less than this height
+                // so current height applies until the beginning
+                distance = i;
+            } else {
+                distance = i - prevBiggerNumberIndex;
+            }
+            int height = heights[prevBiggerNumberIndex];
+            int area = distance * height;
+
+            maxArea = Math.max(maxArea, area);
         }
 
         return maxArea;
