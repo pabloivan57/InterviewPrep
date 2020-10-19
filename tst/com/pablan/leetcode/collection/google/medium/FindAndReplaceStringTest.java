@@ -10,6 +10,6 @@ public class FindAndReplaceStringTest {
         System.out.println(findAndReplaceString.findReplaceString("abcd",
                 new int[] {0, 2},
                 new String[] {"a", "cd"},
-                new String[] {"eee", "fff"})); // Should be eeebffff
+                new String[] {"eee", "fff"})); // Should be eeebfff
     }
 }

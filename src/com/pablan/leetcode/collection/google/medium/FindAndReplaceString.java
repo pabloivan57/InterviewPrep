@@ -1,5 +1,10 @@
 package com.pablan.leetcode.collection.google.medium;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 public class FindAndReplaceString {
 
     /**
@@ -33,22 +38,50 @@ public class FindAndReplaceString {
      * Output: "eeecd"
      * Explanation: "ab" starts at index 0 in S, so it's replaced by "eee".
      * "ec" doesn't starts at index 2 in the original S, so we do nothing.
+     *
+     * Pablo's notes: The trick here is to keep a table of the indexes that are valid replacements
+     * and then forget about S but use the table to build a string instead. For example above:
+     *
+     * abcd ,indexes = [0,2], sources = ["a","cd"]
+     * is source at index 0 valid? Yes
+     * index 0 goes to target index 0
+     * is source at index 2 valid? Yes
+     * index 2 got to target index  1
+     *
+     * 0 -> 0
+     * 2 -> 1
+     *
+     * now create a new string by iterating over S
+     * do I have a valid replacement at index 0? Yes
+     * result -> add target at index 0
+     * result =  eee and jump by the part that was matched in S, in other words source[0] = 1... i is now 1
+     * do I have a valid replacement at index 1? No
+     * result -> add S at index 1
+     * result = eeeb and jump by 1
+     * do I have a valid replacement at 2? Yes
+     * result -> add target at index 1, this is because table tells us 2 -> 1
+     * result = eeebfff and jump by source[1]... i is now 4
+     * Finish loop
      */
     public String findReplaceString(String S, int[] indexes, String[] sources, String[] targets) {
-
-        StringBuilder result = new StringBuilder(S);
-
-        int offsetIndex = 0;
+        Map<Integer, Integer> validReplacements = new HashMap<>();
         for(int i = 0; i < indexes.length; i++) {
-            String source = sources[i];
-            String target = targets[i];
-
-            if(!S.substring(i, source.length()).equals(source)) {
-                continue;
+            if(S.startsWith(sources[i], indexes[i])) {
+                validReplacements.put(indexes[i], i);
             }
+        }
 
-            result.replace(offsetIndex, source.length(), target);
-            offsetIndex += target.length();
+        StringBuilder result = new StringBuilder();
+
+        int i = 0;
+        while( i < S.length()) {
+            if(validReplacements.containsKey(i)) {
+                result.append(targets[validReplacements.get(i)]);
+                i += sources[validReplacements.get(i)].length();
+            } else {
+                result.append(S.charAt(i));
+                i++;
+            }
         }
 
         return result.toString();
