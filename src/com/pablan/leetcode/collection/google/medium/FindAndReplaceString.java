@@ -62,6 +62,10 @@ public class FindAndReplaceString {
      * result -> add target at index 1, this is because table tells us 2 -> 1
      * result = eeebfff and jump by source[1]... i is now 4
      * Finish loop
+     *
+     * "The technique is like "piece table", which is used in editors.
+     * We record all the valid operations first and put them into a piece table,
+     * then iterate the string index to "apply" these operations"
      */
     public String findReplaceString(String S, int[] indexes, String[] sources, String[] targets) {
         Map<Integer, Integer> validReplacements = new HashMap<>();
