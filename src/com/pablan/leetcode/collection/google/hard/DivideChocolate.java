@@ -61,7 +61,11 @@ public class DivideChocolate {
 
         while(left < right) {
             int mid = left + ((right - left) / 2);
-            if(canSplit(mid,  K + 1, sweetness)) {
+            // basically we are saying. Can I split into K + 1 piece of M sweetness?
+            // If yes, try a bigger number, otherwise a lower
+            // Imagine you want 5 pieces of 23 swetnees of the bar. Impossible you can have at most 2
+            // So we attempt to look for a smaller number
+            if(piecesOfAtLeastNSweetness(mid, sweetness) < K + 1) {
                 right = mid;
             } else {
                 left = mid + 1;
@@ -71,20 +75,19 @@ public class DivideChocolate {
         return left;
     }
 
-    public boolean canSplit(int target, int pieces, int[] sweetness) {
+    // This is just helpful to understand, makes things easier to understand
+    public int piecesOfAtLeastNSweetness(int target, int[] sweetness) {
+        int pieces = 0;
+
         int sum = 0;
         for(int i = 0; i < sweetness.length; i++) {
             sum = sum + sweetness[i];
             if(sum > target) {
-                pieces--;
+                pieces++;
                 sum = 0;
-            }
-
-            if(pieces <= 0) { // <= because pieces is expected to be 1 based, if you get rid of 1 you have nothingness
-                return false; // I need more pieces of what I have available
             }
         }
 
-        return true;
+        return pieces;
     }
 }
