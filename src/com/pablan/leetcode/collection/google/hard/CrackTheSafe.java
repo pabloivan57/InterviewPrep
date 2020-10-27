@@ -67,7 +67,7 @@ public class CrackTheSafe {
 
         dfs(password, visited, n, k, possibilities);
 
-        return password;
+        return password.toString();
     }
 
     private boolean dfs(StringBuilder password, Set<String> visited, int n, int k, int possibilities) {
