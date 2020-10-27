@@ -66,6 +66,8 @@ public class CrackTheSafe {
         Set<String> visited = new HashSet<>();
 
         dfs(password, visited, n, k, possibilities);
+
+        return password;
     }
 
     private boolean dfs(StringBuilder password, Set<String> visited, int n, int k, int possibilities) {
