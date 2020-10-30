@@ -32,7 +32,7 @@ public class RangeModule {
     }
 
     public void addRange(int left, int right) {
-        addRange(root, left, right);
+        root = addRange(root, left, right);
     }
 
     public boolean queryRange(int left, int right) {
