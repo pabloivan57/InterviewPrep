@@ -1,5 +1,8 @@
 package com.pablan.leetcode.collection.google.medium;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class MagicSquaresInGrid {
 
     /**
@@ -67,10 +70,42 @@ public class MagicSquaresInGrid {
      *  3 * middle = 15
      *  middle = 5
      *
-     *  Therefore when you find a 5, you simply check around it for 1 through 9
+     *  Therefore when you find a 5, you simply check around it for 1 through 9.
+     *
+     *  BUT: there is another trick. Turn out the values have to be
+     *  43816729 (clockwise or anticlockwise). In other words
+     *
+     *  4381672943816729 or 9276183492761834
      */
 
     public int numMagicSquaresInside(int[][] grid) {
 
+        int magicSquares = 0;
+        for(int row = 0; row < grid.length; row++) {
+            for(int column = 0; column < grid[0].length; column++) {
+                if(grid[row][column] == 5) {
+                    //check if it's magic square
+                    if(isMagicSquare(grid, row, column)) {
+                        magicSquares++;
+                    }
+                }
+            }
+        }
+
+        return magicSquares;
+    }
+
+    private boolean isMagicSquare(int[][] grid, int row, int column) {
+        if(row - 1 < 0
+                || row + 1 >= grid.length
+                || column - 1 < 0
+                || column + 1 >= grid[0].length) {
+            return false;
+        }
+
+        String digits = "" + grid[row - 1][column - 1] + grid[row - 1][column] + grid[row - 1][column + 1]
+                + grid[row][column + 1] + grid[row + 1][column + 1] + grid[row + 1][column] + grid[row + 1][column - 1]
+                + grid[row][column - 1];
+        return "4381672943816729".contains(digits) || "9276183492761834".contains(digits);
     }
 }
