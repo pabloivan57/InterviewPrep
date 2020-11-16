@@ -60,7 +60,7 @@ public class RangeSumQuery2DImmutable {
      *   the sum and say that (sum of everything) - row before the row (5 6) = 6 - col before col 5 = 12
      *                                                                                            8
      *   plus sum of row1 - 1, col1 - 1  because you substracted that twice. Is the result
-     *   
+     *
      *   45 - 6 - 12 + 1 = 28 == 5 + 6 + 8+ 9
      */
     public RangeSumQuery2DImmutable(int[][] matrix) {
