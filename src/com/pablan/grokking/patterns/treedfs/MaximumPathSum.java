@@ -6,6 +6,17 @@ public class MaximumPathSum {
 
     int globalMaximum;
 
+    /**
+     *  Find the path with the maximum sum in a given binary tree.
+     *  Write a function that returns the maximum sum.
+     *
+     * A path can be defined as a sequence of nodes between any two nodes and doesn’t
+     * necessarily pass through the root. The path must contain at least one node.
+     *
+     * Pablo's notes: When you do a normal dfs, you can go left, right center.
+     * If you visit nodes in that order you will start having "local" paths
+     *
+     */
     public int findMaximumPathSum(TreeNode root) {
         globalMaximum  = Integer.MIN_VALUE;
         findMaximumPathSumRecursive(root);
