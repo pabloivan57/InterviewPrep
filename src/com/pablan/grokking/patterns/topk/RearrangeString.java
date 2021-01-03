@@ -6,34 +6,61 @@ import java.util.PriorityQueue;
 
 public class RearrangeString {
 
+    /**
+     *  Given a string, find if its letters can be rearranged in
+     *  such a way that no two same characters come next to each other.
+     *
+     *  Example 1:
+     *
+     *  Input: "aappp"
+     *  Output: "papap"
+     *  Explanation: In "papap", none of the repeating characters come next to each other.
+     *  Example 2:
+     *
+     *  Input: "Programming"
+     *  Output: "rgmrgmPiano" or "gmringmrPoa" or "gmrPagimnor", etc.
+     *  Explanation: None of the repeating characters come next to each other.
+     *  Example 3:
+     *
+     *  Input: "aapa"
+     *  Output: ""
+     *  Explanation: In all arrangements of "aapa", atleast two 'a' will come together e.g., "apaa", "paaa".
+     *
+     */
     public String rearrangeString(String str) {
-        Map<Character, Integer> charFrequencyMap = new HashMap<>();
-        for (char chr : str.toCharArray()) {
-            charFrequencyMap.put(chr, charFrequencyMap.getOrDefault(chr, 0) + 1);
+        Map<Character, Integer> occurrences = new HashMap<>();
+        char[] letters = str.toCharArray();
+
+        // occurences
+        for(int i = 0; i < letters.length; i++) {
+            occurrences.put(letters[i], occurrences.getOrDefault(letters[i], 0) + 1);
         }
 
         PriorityQueue<Map.Entry<Character, Integer>> maxHeap = new PriorityQueue<>((a, b) -> b.getValue() - a.getValue());
-
-        //add all characters to the maxHeap
-        for(Map.Entry<Character, Integer> entry : charFrequencyMap.entrySet()) {
+        for(Map.Entry<Character, Integer> entry : occurrences.entrySet()) {
             maxHeap.offer(entry);
         }
 
+        StringBuilder result = new StringBuilder();
         Map.Entry<Character, Integer> previousEntry = null;
-        StringBuilder resultString = new StringBuilder(str.length());
         while(!maxHeap.isEmpty()) {
-            Map.Entry<Character, Integer> currentEntry = maxHeap.poll();
-            // add the previous entry back in the heap if its frequency is greater than zero
-            if (previousEntry != null && previousEntry.getValue() > 0)
+            Map.Entry<Character, Integer> current = maxHeap.poll();
+            result.append(current.getKey());
+            current.setValue(current.getValue() - 1);
+            // put in back on the maxHeap
+            if(previousEntry != null && previousEntry.getValue() > 0) {
                 maxHeap.offer(previousEntry);
-
-            // append the current character to the result string and decrement it's count
-            resultString.append(currentEntry.getKey());
-            currentEntry.setValue(currentEntry.getValue() - 1);
-            previousEntry = currentEntry;
+            }
+            // set current to previous entry
+            previousEntry = current;
         }
 
-        // if we were successful in appending all the characters to the result string, return it
-        return resultString.length() == str.length() ? resultString.toString() : "";
+        // if previous entry has a value here that means there a few letter left to process
+        while(previousEntry != null && previousEntry.getValue() > 0) {
+            result.append(previousEntry.getKey());
+            previousEntry.setValue(previousEntry.getValue() - 1);
+        }
+
+        return result.toString();
     }
 }

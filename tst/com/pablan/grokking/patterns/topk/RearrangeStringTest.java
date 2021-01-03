@@ -6,8 +6,8 @@ public class RearrangeStringTest {
 
     @Test
     public void test() {
-        //System.out.println("Rearranged string: " + new RearrangeString().rearrangeString("aappp"));
-        //System.out.println("Rearranged string: " + new RearrangeString().rearrangeString("Programming"));
+        System.out.println("Rearranged string: " + new RearrangeString().rearrangeString("aappp"));
+        System.out.println("Rearranged string: " + new RearrangeString().rearrangeString("Programming"));
         System.out.println("Rearranged string: " + new RearrangeString().rearrangeString("aapa"));
     }
 }
