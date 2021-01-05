@@ -8,5 +8,6 @@ public class AndroidUnlockPatternsTest {
     public void test() {
         AndroidUnlockPatterns androidUnlockPatterns = new AndroidUnlockPatterns();
         System.out.println(androidUnlockPatterns.numberOfPatterns(1, 1)); // should be 9
+        System.out.println(androidUnlockPatterns.numberOfPatterns(1, 2)); // should be 65
     }
 }
