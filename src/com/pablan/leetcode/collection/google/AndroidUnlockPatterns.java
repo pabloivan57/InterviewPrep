@@ -108,8 +108,6 @@ public class AndroidUnlockPatterns {
 
         // backtrack
         visited[number] = false;
+        return count;
     }
-
-
-
 }
