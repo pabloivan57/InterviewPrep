@@ -19,6 +19,13 @@ public class FindKLargestInArrayQuickSelect {
      *
      * Input: [3,2,3,1,2,4,5,5,6] and k = 4
      * Output: 4
+     *
+     * Pablo's notes: The optimal solution uses Quick Select to do this, that is because you can cut
+     * the time to O(n) best case where you pick position as pivot or O(n ^ 2) worst case using quick store.
+     * The cool thing about this is that Quick sort
+     * put's 1 element in the right position at a time. So we use that to our advantage, for example:
+     * 3,2,1,5,6,4 k = 2 is asking for the 2 largest element if the array is sorted
+     * Or in other words, position 4
      */
     public int findKthLargest(int[] nums, int k) {
         findKthLargestWithHeaps(nums, k);
@@ -40,48 +47,50 @@ public class FindKLargestInArrayQuickSelect {
     }
 
     private int findKthLargestWithQuickSelect(int[] nums, int k) {
-        int pivot_index = partition(0, nums.length - 1, nums);
-        int position_to_search = nums.length - k;
+        int pivot_index = partition(nums, 0, nums.length - 1);
+        int position_to_find = nums.length - k; // Why not nums.length - 1 - k? That is because
+                                                // nums.length - 1 includes an element, so now you
+                                                // have to move k-1 spaces to the left. For example:
+                                                //  3, 2, 1, 5, 6, 4 and k = 2
+                                                //  k = 1 is position n - 1 or 5
+                                                //  k = 2 is position n - 1 - 1 or 4.
+                                                // In other words we are looking at element on index 4 or (n - k)
+                                                // or n - 1 - (k - 1)
 
-        while(pivot_index != position_to_search) {
-            if(pivot_index < position_to_search) {
-                pivot_index = partition(pivot_index + 1, nums.length - 1, nums);
+        while(pivot_index != position_to_find) {
+            pivot_index = partition(nums, 0, nums.length - 1);
+            if(pivot_index < position_to_find) {
+                pivot_index = partition(nums, pivot_index + 1,nums.length - 1);
             } else {
-                pivot_index = partition(0, pivot_index - 1, nums);
+                pivot_index = partition(nums, 0, pivot_index - 1);
             }
         }
 
-        return nums[pivot_index];
+        return pivot_index;
     }
 
-    private int partition(int low, int high, int[] nums) {
+    private int partition(int[] nums, int low, int high) {
+        // we use middle for pivot
+        int pivot = ((high - low) / 2);
+        int pivotValue = nums[pivot];
 
-        // let's do /2 for now
-        int pivotIndex =  low + ((high - low) / 2);
-        int pivotValue = nums[pivotIndex];
-
-        // move pivot to the end
-        swap(pivotIndex, high, nums);
-
-        // move everything between low / high to be less than pivot
-        // and use a variable to remember the last index which was less than pivot
-        int less = low - 1;
-        for(int i = low; i < high; i++) {
-            if(nums[i] < pivotValue) {
-                swap(i, ++less, nums);
+        // swap pivot to the end
+        swap(pivot, high, nums);
+        int i = low - 1;
+        for(int j = low; j < high; j++) {
+            if(nums[j] < pivotValue) {
+                swap(++i, j, nums);
             }
         }
 
-        // move the pivot to the position where it is supposed to be
-        swap(++less, high, nums);
-
-        return less;
+        // swap back pivot
+        swap(pivot, high, nums);
+        return pivot;
     }
 
-
-    public void swap(int a, int b, int[] nums) {
-        int tmp = nums[a];
+    private void swap(int a, int b, int[] nums) {
+        int aux = nums[a];
         nums[a] = nums[b];
-        nums[b] = tmp;
+        nums[b] = aux;
     }
 }
