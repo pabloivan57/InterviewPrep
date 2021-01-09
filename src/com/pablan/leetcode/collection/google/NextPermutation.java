@@ -60,40 +60,45 @@ public class NextPermutation {
      * @param nums
      */
     public void nextPermutation(int[] nums) {
-        // Step 1 find pivot
+        // Step 1. Find the sequence that is exhausted from right to left (descending order)
         int pivot = -1;
-        for(int j = nums.length - 2; j>=0; j--) {
-            if(nums[j] < nums[j + 1]) {
-                pivot = j;
+        for(int i = nums.length - 2; i >= 0; i++) {
+            if(nums[i] < nums[i + 1]) {
+                // This is ascending order, therefore the place where we should swap
+                pivot = i;
                 break;
             }
         }
 
-        // Step 2 find the very first element on the right side that is more than pivot
+        // Step 2. Swap last number with pivot
         if(pivot != -1) {
-            for (int j = nums.length - 1; j > pivot; j--) {
-                if (nums[j] > nums[pivot]) {
-                    swap(pivot, j, nums);
+            // the very first number from the right side that is more than pivot
+            // This is done for edge cases where there are a bunch of number off the same size
+            for(int i = nums.length - 1; i > pivot; i--) {
+                if(nums[pivot] > nums[i]) {
+                    swap(pivot, i, nums);
                     break;
                 }
             }
         }
 
-        // Step 3 reverse the right side
+
+        // Step 3. reverse the right side of the array
         reverse(pivot + 1, nums.length - 1, nums);
     }
 
-    private void swap(int i, int j, int[] nums) {
-        int aux = nums[i];
-        nums[i] = nums[j];
-        nums[j] = aux;
+    private void swap(int a, int b, int[] nums) {
+        int aux = nums[a];
+        nums[a] = nums[b];
+        nums[b] = aux;
     }
 
-    private void reverse(int i, int j, int[] nums) {
-        while(i <= j) {
-            swap(i, j, nums);
-            i++;
-            j--;
+    private void reverse(int start, int end, int[] nums) {
+        while(start <= end) {
+            swap(start, end, nums);
+            start++;
+            end--;
         }
     }
+
 }
