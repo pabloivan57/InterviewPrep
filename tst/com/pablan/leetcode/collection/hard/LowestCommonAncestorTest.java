@@ -28,5 +28,20 @@ public class LowestCommonAncestorTest {
 
         LowestCommonAncestor lowestCommonAncestor = new LowestCommonAncestor();
         System.out.println(lowestCommonAncestor.lowestCommonAncestor(three, five, one).val); // should be 3
+
+        six = new TreeNode(6);
+        six.left = new TreeNode(2);
+        six.right = new TreeNode(8);
+        six.left.left = new TreeNode(0);
+        six.left.right = new TreeNode(4);
+        six.left.right.left = new TreeNode(3);
+        six.left.right.right = new TreeNode(5);
+
+        six.right = new TreeNode(8);
+        six.right.left = new TreeNode(7);
+        six.right.right = new TreeNode(9);
+
+        lowestCommonAncestor = new LowestCommonAncestor();
+        System.out.println(lowestCommonAncestor.lowestCommonAncestor(six, new TreeNode(2), new TreeNode(5)).val); // should be 2
     }
 }

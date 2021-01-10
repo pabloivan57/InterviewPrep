@@ -43,12 +43,13 @@ public class LowestCommonAncestor {
         int right = traverse(root.right, p, q);
 
         int middle = (root.val == p.val || root.val == q.val) ? 1 : 0;
+        int total = left + right + middle;
 
-        if(left + right + middle >= 2) {
+        if(total >= 2) {
             // found lowest common ancestor
             ans = root;
         }
 
-        return middle > 0 ? 1 : 0;
+        return total > 0 ? 1 : 0;
     }
 }
