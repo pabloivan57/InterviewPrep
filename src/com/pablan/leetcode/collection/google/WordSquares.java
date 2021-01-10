@@ -44,14 +44,22 @@ public class WordSquares {
      * Explanation:
      * The output consists of two word squares. The order of output does not matter (just the order of words in each word square matters).
      *
-     * Pablo's notes: The trick here is symetric property, notice how elements on the diagonal are symetrical.
-     * w a l l -->  w a l l
-     * a (a)        a r e a --> only option, now find words with l e
-     * l            l e (l)
-     * l            l a
+     * Pablo's notes: This is a really good explanation taken from leetcode
      *
-     * The prefix is obtained with each word at step i, for example above. We know the next word step 3 should come
-     * w a (l) l, a r (e) a == le
+     * A better approach is to check the validity of the word square while we build it.
+     * Example: ["area","lead","wall","lady","ball"]
+     * We know that the sequence contains 4 words because the length of each word is 4.
+     * Every word can be the first word of the sequence, let's take "wall" for example.
+     * Which word could be the second word? Must be a word start with "a" (therefore "area"),
+     * because it has to match the second letter of word "wall".
+     * Which word could be the third word? Must be a word start with "le" (therefore "lead"),
+     * because it has to match the third letter of word "wall" and the third letter of word "area".
+     * What about the last word? Must be a word start with "lad" (therefore "lady"). For the same reason above.
+     *
+     * w   |a|  l   l      ->        w   a  l   l              w      a   |l|   l            w      a   l   |l
+     * |a|  r   e   a                a   r  e   a      ->      a      r   |e|   a            a      r   e   |a
+     *                                                         |l|   |e|   a    d   ->       l      e   a   |d
+     *                                                                                       |l|   |a|  |d|  y
      */
     public List<List<String>> wordSquares(String[] words) {
         List<List<String>> result = new ArrayList<>();
