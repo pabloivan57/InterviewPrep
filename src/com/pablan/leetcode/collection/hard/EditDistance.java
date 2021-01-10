@@ -26,6 +26,19 @@ public class EditDistance {
      * Output: 3
      * Explanation: Replace 'a' with 'p', 'o' with 'q', and insert 'r'.
      *
+     * Pablo's notes: So, this is DP but recursive is common logic. Here's how you go about it
+     * So, when they are equal then you're cool, and we are comparing by having two pointers
+     * i in s1, and j in s2. Just skip to the next index
+     * When they are different, ok now what can we do?
+     * 1.- We replace one of them to match
+     * 2.- We remove letter i in s1, hoping that i + 1 == j in s2
+     * 3.- We remove letter j in s2, hoping that j + 1 == i in s1
+     *
+     * we have to consider all three scenarios. And when do we end?
+     * Well if both i and j are at the end of both s1 and s2 and they are equal... we finished
+     * Also, if we have i out of boundaries of s1 that is invalid
+     * Also, if we have j out of boundaries of s2 that is invalid
+     *
      */
     public int findMinOperations(String s1, String s2) {
         //return findMinOperations(0, s1, 0, s2, 0);
