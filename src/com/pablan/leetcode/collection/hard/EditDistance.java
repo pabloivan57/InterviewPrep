@@ -72,6 +72,25 @@ public class EditDistance {
         return Math.min(case1, Math.min(case2, case3));
     }
 
+    /**
+     *  The DP approach actually makes sense... however there is a tricky part, as you know
+     *  DP usually takes a base case out of it's ass. For example
+     *  bat and but.. we know it starts at index 0 with b == b. But is there something before that?
+     *  yes... the empty string "" "" which we can say it's index -1 "" == "".
+     *  Now, because you can't work with arrays and negative indexes you do this
+     *  ["", b, a, t] and ["", b, u, t] and say that index 0 "" == ""
+     *  and index 1 now b == b... that's why later you will see a weird s1.charAt(i - 1) check
+     *  That is because we "transposed" all the letters one element to the right in the dp matrix
+     *
+     *  Anyways, building the matrix makes sense... simply put both elements in the matrix and
+     *  start counting how many changes we need to get there
+     *      "" b  u  t
+     *  ""  0  1  2  3  --> 1 2 3 because b to make it "" you need 1 deletion, bu to make "" you need 2 deletions, etc
+     *  b   1  0        --> This means If b == b, cool now just check i - 1 and j - 1 to see if they are equal. If not then total operations will be i - 1 and j - 1 which you already calcualted
+     *  a   2           --> Here u != a, so now you ask. Which one is better? replacing and checking i - 1 and j - 1 or deleting i at s1 or deleting j at s2
+     *  t   3
+     *
+     */
     private int findMinOperationsDp(String s1, String s2) {
         int[][] dp = new int[s1.length() + 1][s2.length() + 1];
 
