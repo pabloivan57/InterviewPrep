@@ -18,6 +18,21 @@ public class PalindromePartitioning {
      *   ["aa","b"],
      *   ["a","a","b"]
      * ]
+     *
+     * Pablo's notes: The way to go about this is with backtracking, you try all possibilities
+     *
+     * aab
+     * Let's start picking 1 letter from the left a.
+     * By definition a single letter is a palindrome, cool so now let's try splitting the right side
+     * [a]  [ab]. If we work with ab let's start splitting with the first letter
+     * [a]  [a] [b]. Let's work with b. let's split it... well it's palindrome and we can't split even furter so backtrack.
+     *               This is a response btw
+     * [a]   [ab] --> We are back at this point. Now let's try all numbers [ab], is it palindrome? no, backtrack
+     * [aab] --> Now instead of picking far left a we do [aa] [b]
+     * [aa]  [b] -> b cannot be split anymore and it's palinrome
+     *                This is another response, backtrack
+     * [aab] -> Now let's try [aab], is it palindrome? Nope... well, we are done
+     *
      */
     public List<List<String>> partition(String s) {
         List<List<String>> lists = new ArrayList<>();
