@@ -43,6 +43,21 @@ public class WordLadder {
      *
      * Explanation: The endWord "cog" is not in wordList, therefore no possible transformation.
      *
+     * Pablo's notes: This problem is actually straightforward, the trick is to create a map of possible
+     * "transitions". For example
+     * you could reach hot from 3 options, [*ot] : h*t : ho*
+     * now imagine also dot from 3 options [*ot] : d*t : do*
+     *
+     * This means you have *ot -> hot, dog
+     * so, because hot can be mapped to *ot we can find other possible words that we can transition to... for example dot
+     * That is the gist of the algorithm,
+     * 1.- for each word. Create these prefixes
+     * 2.- From starting word, transform it to prefix form and explore each path
+     *     hit -> *it,            h*t,            hi*t
+     *          [  words  ]      [ words  ]        [words]
+     * 3.- Basically do a BFS of each of those words and it's prefix possibilities. Of course keep track of visited
+     * words
+     * 4.- When we reach the end word. return how deep it is in the BFS. Why BFS? Because it returns the shortest path
      */
     public int ladderLength(String beginWord, String endWord, List<String> wordList) {
 
