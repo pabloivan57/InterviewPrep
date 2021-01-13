@@ -24,6 +24,29 @@ public class WiggleSortII {
      * Pablo's notes: This problem is based on dutch flag problem or
      * 3-way-partitioning
      *
+     * A better explanation is as follows: Basically you want to arrange the array as
+     * peaks and valleys.
+     *
+     * Peaks will be at positions 1, 3, 5... etc. in other words odd positions
+     * Valleys will be at positions 0, 2, 4, 6... etc. In other words even positions
+     * If we had split the array in two equal parts. In other words, the median... we can
+     * interleave those two parts and get an arrangement. For example:
+     *
+     * 1 5 1 1 6 4 --> sorted is 1 1 1 5 6 4 = 6 elements, the middle element is (n + 1) / 2
+     * That is because of a pattern for even "cuts" where when even numbers you cut through the middle fo a number.
+     *
+     * 1 2/2 3                 3 +1 / 2 == 2
+     * 1  2 / 3 4              4 + 1 / 2 == 2
+     * 1  2  3/3  4  5         5 + 1 / 2 == 3
+     * 1  2  3 / 4  5  6       6 + 1 / 2 == 3
+     *
+     * In any case, once we have a ccut for two even sorted parts we can interleave them. We know an algorithm
+     * to find that cut. But doing the Kth largest... so we find that number in O(nlogn)
+     *
+     * And then we do 3 way partitioning
+     *
+     * 1.- if the number is less than Kth larger? Then put it in even position (will be valley)
+     * 2.- If the number is more than Kth larger? Then put it in odd positioon (will be peak)
      */
     public void wiggleSort(int[] nums) {
 
