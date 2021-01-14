@@ -36,7 +36,7 @@ public class SpiralMatrix {
         int columnStart = 0;
         int columnEnd = matrix[0].length - 1;
 
-        while(rowStart < rowEnd && columnStart < columnEnd) {
+        while(rowStart <= rowEnd && columnStart <= columnEnd) {
             // go right
             for(int column = columnStart; column <= columnEnd; column++) {
                 result.add(matrix[rowStart][column]);
@@ -47,6 +47,12 @@ public class SpiralMatrix {
                 result.add(matrix[row][columnEnd]);
             }
 
+            /**
+             * Here we only go up until while rowStart < rowEnd
+             * that is because when you have only 1 row left... that is when we are at the
+             * outer rowStart == rowEnd then we still have to advance from left to right.
+             * But we don't go backwards because we already visited the entire row
+             */
             if(rowStart < rowEnd && columnStart < columnEnd) {
                 // go left
                 for(int column = columnEnd - 1; column >= columnStart; column--) {
