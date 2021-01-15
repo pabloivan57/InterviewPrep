@@ -67,70 +67,30 @@ public class BullsAndCows {
      *  if we have < 0 and we analyze secret, that means there is a number on guess we can match againts. Therefore a cow
      */
     public String getHint(String secret, String guess) {
-        int bulls = 0;
-        int cows = 0;
-
-        int[] buffer = new int[10]; // digits from 0 to 9
-
-        for(int i = 0; i < secret.length(); i++) {
-            int secretNumber = secret.charAt(i) - '0';
-            int guessNumber = guess.charAt(i) - '0';
-
-            if(secretNumber == guessNumber) {
-                bulls++;
-            } else {
-                if(buffer[secretNumber] < 0) {
-                    // we have something to match against
-                    cows++;
-                }
-                if(buffer[guessNumber] > 0) {
-                    // same we have something to match against
-                    cows++;
-                }
-
-                buffer[secretNumber]++;
-                buffer[guessNumber]--;
-            }
-        }
-
-        return bulls + "A" + cows + "B";
-    }
-
-
-    public String getHintIntuition(String secret, String guess) {
-        Map<Integer, Integer> matchBuffer = new HashMap<>();
+        int[] digits = new int[10];
 
         int bulls = 0;
         int cows = 0;
-
         for(int i = 0; i < secret.length(); i++) {
-            int secretNumber = secret.charAt(i) - '0';
-            int guessNumber = secret.charAt(i) - '0';
-            if(secretNumber == guessNumber) {
+            int s = secret.charAt(i) - '0';
+            int g = guess.charAt(i) - '0';
+
+            if(s == g) {
+                // bulls
                 bulls++;
             } else {
-
-                if(matchBuffer.containsKey(secretNumber)) {
+                if (digits[s] < 0) {
+                    // matching a number previously seen from guess with secret
                     cows++;
-                    matchBuffer.put(secretNumber, matchBuffer.get(secretNumber) - 1);
-
-                    if(matchBuffer.get(secretNumber) == 0) {
-                        matchBuffer.remove(secretNumber);
-                    }
-                } else {
-                    matchBuffer.put(secretNumber, matchBuffer.getOrDefault(secretNumber, 0) + 1);
                 }
 
-                if(matchBuffer.containsKey(guessNumber)) {
+                if (digits[g] > 0) {
+                    // matching a number previously seen on secret from guess
                     cows++;
-                    matchBuffer.put(guessNumber, matchBuffer.get(guessNumber) - 1);
-
-                    if(matchBuffer.get(guessNumber) == 0) {
-                        matchBuffer.remove(guessNumber);
-                    }
-                } else {
-                    matchBuffer.put(guessNumber, matchBuffer.getOrDefault(guessNumber, 0) + 1);
                 }
+
+                digits[s]++;
+                digits[g]--;
             }
         }
 
