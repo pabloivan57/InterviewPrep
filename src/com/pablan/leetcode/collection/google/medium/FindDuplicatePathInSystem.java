@@ -36,6 +36,14 @@ public class FindDuplicatePathInSystem {
      * Output:
      * [["root/a/2.txt","root/c/d/4.txt","root/4.txt"],["root/a/1.txt","root/c/3.txt"]]
      *
+     * Pablo's notes: Intitution tells you two have two maps, content to file and file to directory... but there is no
+     * need for this. We simply need content and the filepath where it belongs. At the end we just return the ones that
+     * have more than 1 file path
+     *
+     * root/a 1.txt(abcd)  root/c 3.txt(abcd)
+     *
+     * abcd -> root/a/1.txt, root/c/e.txt --> Duplicate because I have two filepaths
+     *
      */
     public List<List<String>> findDuplicate(String[] paths) {
         Map<String, List<String>> contentGroupings = new HashMap<>();
