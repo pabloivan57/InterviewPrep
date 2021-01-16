@@ -85,54 +85,61 @@ public class FindTwoNonOverlappingSubArraysWithTarget {
      * Now same for right and it results in [1, 1, 1, 1, 1, 1]
      * At each index the result will be min (left + right + 1) == 2. Final Result is two [3] [3]
      *
-     * Noow do this with [4,3,2,6,2,3,4], target 6
+     * Now do this with [4,3,2,6,2,3,4], target 6
      * left = [inf inf inf 1 1 1 1]
      * right = [ 1  1   1  1 inf inf inf]
      * result = [1  1   1  1  1   1   1]
      */
     public int minSumOfLengths(int[] arr, int target) {
-        int windowStart = 0;
+        int[] left = new int[arr.length];
+        int[] right = new int[arr.length];
+        int[] result = new int[arr.length];
 
-        Map<Integer, Integer> window = new HashMap<>();
-        List<List<Integer>> subArrays = new ArrayList<>();
+        // calculate minSize with sliding window from left
+        int windowStart = 0;
         int sum = 0;
+        int minWindow = Integer.MAX_VALUE;
         for(int windowEnd = 0; windowEnd < arr.length; windowEnd++) {
             sum += arr[windowEnd];
-            window.put(windowEnd, arr[windowEnd]);
-            if(sum == target) {
-                // Found and option
-                List<Integer> oneResult = new ArrayList<>();
-                for(Integer val : window.values()) {
-                    oneResult.add(val);
-                }
-                subArrays.add(oneResult);
-
-                // initialize everything
-                window = new HashMap<>();
-                windowStart = windowEnd + 1;
-                sum = 0;
-            } else if(sum > target) {
-                // shrinkWindow
-                while(sum > target) {
-                    sum -= window.get(windowStart);
-                    window.remove(windowStart);
-                    windowStart++;
-                }
+            while(sum > target) {
+                sum -= arr[windowStart++];
             }
+
+            if(sum == target) {
+                // found a subarrary, let's check size
+                int windowSize = windowEnd - windowStart + 1;
+                minWindow = Math.min(minWindow, windowSize);
+            }
+
+            left[windowEnd] = minWindow;
         }
 
-        if(subArrays.isEmpty() || subArrays.size() < 2) {
-            return -1;
+        // same for right side of array
+        windowStart = arr.length - 1;
+        sum = 0;
+        minWindow = Integer.MAX_VALUE;
+        for(int windowEnd = arr.length - 1; windowEnd >= 0; windowEnd--) {
+            sum += arr[windowEnd];
+            while(sum > target) {
+                sum -= arr[windowStart--];
+            }
+
+            if(sum == target) {
+                // found a subarrary, let's check size
+                int windowSize = windowStart - windowEnd + 1;
+                minWindow = Math.min(minWindow, windowSize);
+            }
+
+            left[windowEnd] = minWindow;
         }
 
-        // Sort them by size
-        Collections.sort(subArrays, (a, b) -> a.size() - b.size());
-
-        int finalResult = 0;
-        for(int i = 0; i < Math.min(subArrays.size(), 2); i++) {
-            finalResult += subArrays.get(i).size();
+        // calculate the mins and keep the minimum
+        int min = Integer.MAX_VALUE;
+        for(int i = 0; i < result.length; i++) {
+            int leftMin = i < 0 ? Integer.MAX_VALUE : left[i];
+            int rightMin = i == result.length - 1 ? Integer.MAX_VALUE : right[i + 1];
+            min = Math.min(min, leftMin + rightMin);
         }
-
-        return finalResult;
+        return min;
     }
 }
