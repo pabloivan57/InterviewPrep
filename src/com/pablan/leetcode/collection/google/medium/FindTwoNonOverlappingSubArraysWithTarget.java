@@ -49,6 +49,46 @@ public class FindTwoNonOverlappingSubArraysWithTarget {
      *
      * Pablo's notes: https://leetcode.com/problems/find-two-non-overlapping-sub-arrays-each-with-target-sum/discuss/685463/C%2B%2B-O(N)-solution-by-prefix-sum-and-DP
      *
+     * Your intuition is correct for this problem. Using sliding window you can get the minSize window that
+     * adds up to target on both sides. of a number. [0, i] and [i+1, n -1]. We do that for every number and we
+     * return the minimum of those operations. Now... That is a lot of work N ^ 2 because for each number
+     * you are iterating left and right N times
+     *
+     * But here is where we get smart! We memorize the minimum size that ads up to target too the left and right
+     * of each number. And then we store those, the result will be the minimum of left[i] + right[i + 1] for the entire array.
+     * For example... let's look at [3,2,2,4,3], target 3
+     *
+     * If we go from left to right We have
+     * [3] --> target, this is a possibility oof size 1
+     *  move window because we are more than target
+     * [2]
+     * [2, 2]
+     * move window because we are more than target
+     * [2]
+     * [2 4]
+     * move window because we are more than target
+     * [4]
+     * move window because we are more than target
+     * [3] --> target, this is a possibility of size 1
+     *
+     * The minimum of all those above is [1]... but now let's remember what was the minimum at each index
+     * [3] --> 1
+     * [3, 2] --> 1
+     * 3 [2] --> 1
+     * 3 [2 2] --> 1
+     * ...
+     * 3 2 [2 4] --> 1
+     * 3 2 2 [4 3] --> 1
+     * 3 2 2 4 [3] --> 1 Another possibility but same size
+     *
+     * Therefore left = [1, 1, 1, 1, 1, 1, 1]
+     * Now same for right and it results in [1, 1, 1, 1, 1, 1]
+     * At each index the result will be min (left + right + 1) == 2. Final Result is two [3] [3]
+     *
+     * Noow do this with [4,3,2,6,2,3,4], target 6
+     * left = [inf inf inf 1 1 1 1]
+     * right = [ 1  1   1  1 inf inf inf]
+     * result = [1  1   1  1  1   1   1]
      */
     public int minSumOfLengths(int[] arr, int target) {
         int windowStart = 0;
