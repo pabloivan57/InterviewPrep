@@ -30,6 +30,19 @@ public class MinimumDominoRotationsForEqualRow {
      * This approach goes better with my thought process. The idea is straight forward,
      * let's assume none of the numbers in top row starting from A[0] are equal to target, then rotations = A.length
      * of course if neither A or B match target you return -1
+     *
+     * Better Pablo's notes: Key observations
+     * 1.- For everything to be the same in 1 row there has to be a number that is present in every piece!
+     * 2.- Now that could be the value in the top or the value on the bottom
+     * 3.- Let's imagine we start with A = [2, 1, 2, 4, 2, 2]. Let's start with worst case scenarios, imagine I have
+     * to rotate 6 times...
+     * A = [x x x x x x] BUT if we are matching against 2 we go 1 by one
+     * A = [2 x x x x x] Did we have to rotate? Nope... then I needed 5 rotations
+     * A = [2 1 x x x x] Did we have to rotate? Yes, ok seems like I still need 5 rotations
+     * A =  [2 1  2 x x x] Did we have to rotate? Nope, ok I need 4 rotations now and so on...
+     * That's the gist of the algorithm. Now, imagine you are matching against 5 and piece 0 is A = [2] B = [3]...
+     * then we simply cannot make all pieces in one side equal. So let's pick val A[0]. We now it must be in piece 0
+     * but will it be in piece 1?. If not then it's not possible to make a row equal
      */
     public int minDominoRotations(int[] A, int[] B) {
         int up = check(A[0], A, B);
