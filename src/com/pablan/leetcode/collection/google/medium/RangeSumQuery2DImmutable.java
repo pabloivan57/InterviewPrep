@@ -62,6 +62,35 @@ public class RangeSumQuery2DImmutable {
      *   plus sum of row1 - 1, col1 - 1  because you substracted that twice. Is the result
      *
      *   45 - 6 - 12 + 1 = 28 == 5 + 6 + 8+ 9
+     *
+     *   pablo's better notes: This algorithm relies in two key observations
+     *
+     *   1.-  if you have a big box... the sum of a subbox is big box - row before the subbox - col before the subbox
+     *   + element that was substracted twoce (row - 1, col -1)
+     *
+     *     1 |    2   3
+     *     ___________
+     *     4 |   [5   6]
+     *     7 |   [8   9]
+     *
+     *     So in this case subbox [5 6 8 9] sum is Total sum - row 0 - col 0 + element [0, 0] ==> this is Because it
+     *     was substracted twice
+     *
+     *     2.- If we have the sums of every array starting in 0,0 and ending in i,j we could do the operation above
+     *     Now, how do we calculate that box?
+     *
+     *     Well, imagine something similar. And let's calculate total for index 9
+     *
+     *     1    2    |  3
+     *     4    [5]  |  6
+     *     ______________
+     *     7    8    |  9             Sum of everything up until 9 is:
+     *
+     *     Sum of everything from 0,0 to 1,2 + sum of everything from 0,0 to 2, 1 - the portion that was summed up twice
+     *     which would be sum of everything until 5 (or 0,0 to 1, 1); plus the 9
+     *
+     *     so basically sum[i][j] = sum[i - 1][j] + sum[i][j - 1]  - sum[i - 1][j - 1] + val(i,j).
+     *     Now in the case of 1... nothing came before that so if you get i = -1... simply return 0
      */
     public RangeSumQuery2DImmutable(int[][] matrix) {
         if (matrix.length == 0) return;
