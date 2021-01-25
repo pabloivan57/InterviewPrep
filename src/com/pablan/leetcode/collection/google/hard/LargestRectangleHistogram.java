@@ -29,6 +29,21 @@ public class LargestRectangleHistogram {
      * to keep track of potential new rectangles that might be larger
      *
      * So, let's start right here
+     *
+     * Pablo's notes: The key here is, you move in the histogram and push to stack until you hit a bar
+     * that is less than the previous index in the stack h[s.peek()]. When this happens. YOU DO NOT work with i height
+     * but with everything else that came before, for example
+     *
+     *     *
+     *   * * *
+     *   * * *
+     *   * * *
+     * * * * *
+     *       ^
+     *
+     * When you hit index 3, h = 4. You start working with everything before it... because we only push
+     * ascending values. Previous will be h=5, we pop. and now we calculate that minus last index  in the stack
+     * i = 2, h = 5 - i = 1, h =4 => d = i (2) - i (1) + 1.
      */
     public int largestRectangleArea(int[] heights) {
         Stack<Integer> positions = new Stack<>();
@@ -48,7 +63,7 @@ public class LargestRectangleHistogram {
                     // so current height applies until the beginning
                     distance = i;
                 } else {
-                    distance = i - prevBiggerNumberIndex;
+                    distance = i - positions.peek();
                 }
 
                 int height = heights[prevBiggerNumberIndex];
