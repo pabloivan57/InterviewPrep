@@ -56,9 +56,18 @@ public class StringTransformsIntoAnotherString {
      * But if the destination string already expecting all 26 letters to be converted from some other letter,
      * then it is impossible to find a 3rd char like e above, to break the cycle. Hence we check if the mapping range is <=26.
      *
-     * BUT HOW THIS IS DIFFERENT FROM CASE 1? Well, you do have 1:1 mappings is just that it's cyclical
-     * a -> c   and not     a -> c
-     * c -> a               a -> d
+     * BUT HOW THIS IS DIFFERENT FROM CASE 1? Well, in case 2 you never have two letters mapping to the same letter.
+     *
+     * example: aaaccc -> cccaaa
+     * a -> e / eeeccc
+     * c -> a / eeeaaa
+     * e -> c / cccaaa == cccaaa
+     *
+     * Now, in the first case:
+     *           abb -> adc
+     * b -> d / add
+     * d -> c / acc
+     * c -> d / add != adc --> You're in a loop right now
      *
      *
      */
