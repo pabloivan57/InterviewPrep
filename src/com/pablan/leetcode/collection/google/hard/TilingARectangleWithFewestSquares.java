@@ -20,6 +20,10 @@ public class TilingARectangleWithFewestSquares {
      *
      * Input: n = 11, m = 13
      * Output: 6
+     *
+     * Pablo's notes: This problem is VERY hard and there have been papers about it
+     * there is no way you will deduct something like this. So the only option
+     * you have is to memorize the solution
      */
     public int tilingRectangle(int n, int m) {
         int area = n * m;
