@@ -84,8 +84,8 @@ public class FindKLargestInArrayQuickSelect {
         }
 
         // swap back pivot
-        swap(pivot, high, nums);
-        return pivot;
+        swap(i, high, nums);
+        return i;
     }
 
     private void swap(int a, int b, int[] nums) {
