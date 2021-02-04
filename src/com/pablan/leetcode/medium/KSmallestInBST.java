@@ -3,8 +3,8 @@ package com.pablan.leetcode.medium;
 import com.pablan.grokking.patterns.treebfs.TreeNode;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
+import java.util.Stack;
 
 public class KSmallestInBST {
 
@@ -54,19 +54,26 @@ public class KSmallestInBST {
     }
 
     public int kSmallestOptimization(TreeNode root, int k) {
-        LinkedList<TreeNode> stack = new LinkedList<>();
+        Stack<TreeNode> stack = new Stack<>();
 
-        TreeNode node = root;
-        while(true) {
-            while(node != null) {
-                stack.add(node);
-                node = node.left;
+        TreeNode current = root;
+
+        while(!stack.isEmpty() || current != null) {
+            while(current != null) {
+                stack.push(current);
+                current = current.left;
             }
 
-            node = stack.removeLast();
+            current = stack.pop();
             k--;
-            if(k == 0) return node.val;
-            node = node.right;
+
+            if(k == 0) {
+                return current.val;
+            }
+
+            current = current.right;
         }
+
+        return null;
     }
 }
