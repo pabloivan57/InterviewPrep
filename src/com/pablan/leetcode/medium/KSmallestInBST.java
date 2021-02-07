@@ -74,6 +74,6 @@ public class KSmallestInBST {
             current = current.right;
         }
 
-        return null;
+        return -1;
     }
 }
