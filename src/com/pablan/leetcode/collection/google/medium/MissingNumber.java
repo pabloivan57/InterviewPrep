@@ -7,7 +7,7 @@ public class MissingNumber {
      *
      */
     public int missingNumber(int[] array) {
-
+        return missingNumber(array, 0, array.length - 1);
     }
 
     private int missingNumber(int[] nums, int start, int end) {
