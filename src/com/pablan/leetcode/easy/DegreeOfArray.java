@@ -26,6 +26,19 @@ public class DegreeOfArray {
      * Pablo's notes: This is an interesting problem, the key is to keep track of the first and last appearances
      * of each number. This is because from the whole array, there must be a subarray containing the longest range
      * of the degree. In other words x[right] - x[left] + 1 is candidate when x[right] | x[left] == degree
+     *
+     * Basically, let's imagine a unique number is the max degree right? Obviously the shortest array
+     * will be the last appereance - the first appereance. Easy enough... now what happens if you have multiple
+     * numbers with the same degree? Easy enough, test all last appareance - fisrt appareance of each one of them
+     * and then return the smallest.
+     *
+     * That means we have to
+     * 1.- for each number, get the first time we see it
+     * 2.- for each number, get the last time we see it
+     * 3.- get the degree of each number
+     * 4.- find out which one is the max degree (multiple numbers could have the same max degree)
+     * 5.- For all the numbers that have 'max degree' find out the shortest between first time we saw it
+     * and last time we saw it
      */
     public int findShortestSubArray(int[] nums) {
         Map<Integer, Integer> leftIndex = new HashMap<>();
