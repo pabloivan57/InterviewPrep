@@ -1,6 +1,12 @@
 package com.pablan.leetcode.medium;
 
+import com.pablan.grokking.patterns.fastslow.ListNode;
 import com.pablan.grokking.patterns.treebfs.TreeNode;
+import com.pablan.leetcode.data.util.Node;
+
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.Stack;
 
 /**
  * Convert a Binary Search Tree to a sorted Circular Doubly-Linked List in place.
@@ -57,41 +63,45 @@ import com.pablan.grokking.patterns.treebfs.TreeNode;
  */
 public class ConvertBinarySearchDoublyLinkedList {
 
-    TreeNode first = null;
-    TreeNode last = null;
 
-    public TreeNode treeToDoublyList(TreeNode root) {
-        if(root == null) return null;
+    public ListNode treeToDoublyList(TreeNode root) {
 
-        inorder(root);
+        ListNode head = null;
 
-        last.right = first;
-        first.left = last;
+        Stack<TreeNode> stack = new Stack<>();
 
-        return first;
-    }
+        TreeNode current = root;
+        ListNode prev = null;
+        ListNode node = null;
+        while(!stack.isEmpty() || current != null) {
+            while(current != null) {
+                stack.push(current);
+                current = current.left;
+            }
 
-    // InOder: left, root, right
-    private void inorder(TreeNode node) {
-        if(node == null) return;
+            current = stack.pop();
+            node = new ListNode(current.val);
+            node.prev = prev;
 
-        //left
-        inorder(node.left);
-        //node
-        if(last != null) {
-            // link the previous node (last)
-            // with the current node (node)
-            last.right = node;
-            node.left = last;
-        } else {
-            // keep the smallest node
-            // to close DDL later on
-            first = node;
+            // set head to current
+            if(head == null) {
+                head = new ListNode(0);
+                head.next = node;
+            }
+
+            // if prev is not null
+            if(prev != null) {
+                prev.next = node;
+            }
+
+            prev = node;
+            current = current.right;
         }
 
-        last = node;
+        node.next = head.next;
+        head.next.prev = node;
 
-        //right
-        inorder(node.right);
+        return head;
     }
+
 }
