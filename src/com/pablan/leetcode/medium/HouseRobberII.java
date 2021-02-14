@@ -31,31 +31,31 @@ public class HouseRobberII {
      * Pick the max of both
      */
     public int rob(int[] nums) {
-       return Math.max(rob(nums, 0, nums.length - 2), rob(nums, 1, nums.length - 1));
+        int case1 = rob(nums, 0, nums.length - 2);
+        int case2 = rob(nums, 1, nums.length - 1);
+
+        return Math.max(case1, case2);
     }
 
     public int rob(int[] nums, int start, int end) {
-        int n = start - end + 1;
+        int size = end - start + 1;
+        int[] dp = new int[size + 1];
 
-        int dp[] = new int[n + 1];
-
-        // case with no houses
+        // with no houses, profit it none
         dp[0] = 0;
 
-        // case with just 1 house
-        dp[1] = nums[start];
+        for(int i = 1; i <= size; i++) {
+            // case1 I rob the house
+            int case1Idx = Math.max(0,  i - 2);
+            int case1 = nums[start + i - 1] + dp[case1Idx];
 
-        for(int i = 2; i <= end; i++) {
-            // case 1 I don't steal this house
-            int profit1 = dp[i - 1];
+            // case 2 I rob no houses
+            int case2 = dp[i - 1];
 
-            // case 2 I steal this house
-            int profit2 = nums[start + 2] + dp[i - 2];
-
-            dp[i] = Math.max(profit1, profit2);
+            dp[i] = Math.max(case1, case2);
         }
 
-        return dp[n];
+        return dp[size];
     }
 
     public int robRecursive(int[] nums) {
