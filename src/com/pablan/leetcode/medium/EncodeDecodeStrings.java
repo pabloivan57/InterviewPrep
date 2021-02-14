@@ -1,5 +1,6 @@
 package com.pablan.leetcode.medium;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -39,6 +40,15 @@ public class EncodeDecodeStrings {
      * "0005aloha0003faa0003enc"
      *
      * To decode you just read every 4 bit sizes and then move the pointer accordingly
+     *
+     * Another way (if you don't want to fuck up with bytes) is to encode with the size of the string
+     * before the string. This is more efficient in the sense that you don't have to open a stream
+     * to read the next character every single time but you do it once at a chunk.
+     *
+     * basically the words above would be
+     * 5#aloha3#faa#3enc. --> Why the '#' as special character? Well that's because in the case
+     * a word start with a number then the word would be encoded incorrectly
+     * 123aloha woud be like 8123aloha and could be misread
      */
     // Encodes a list of strings to a single string.
     public String encode(List<String> strs) {
@@ -48,7 +58,7 @@ public class EncodeDecodeStrings {
 
         StringBuilder sb = new StringBuilder();
         for(String str : strs) {
-            sb.append(str).append(";");
+            sb.append(str.length()).append("#").append(str);
         }
 
         return sb.toString();
@@ -56,12 +66,27 @@ public class EncodeDecodeStrings {
 
     // Decodes a single string to a list of strings.
     public List<String> decode(String s) {
-        if(s  == null) {
-            return Collections.emptyList();
+        List<String> result = new ArrayList<>();
+
+        int pointer = 0;
+        int startWord = 0;
+        while(s != null && pointer < s.length()) {
+            // read word by word
+            while(s.charAt(pointer)!= '#') {
+                pointer++;
+            }
+
+            // compute length
+            String lengthString = s.substring(startWord, pointer); // non inclusive
+            int length = Integer.valueOf(lengthString);
+
+            String word = s.substring(pointer + 1, pointer + 1 + length);
+            result.add(word);
+
+            pointer = pointer + 1 + length;
+            startWord = pointer;
         }
 
-        String[] parts = s.split(";");
-
-        return Arrays.asList(parts);
+        return result;
     }
 }
