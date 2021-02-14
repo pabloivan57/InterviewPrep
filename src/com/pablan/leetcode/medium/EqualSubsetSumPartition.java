@@ -38,70 +38,63 @@ public class EqualSubsetSumPartition {
      * because we use integers
      */
     public boolean canPartition(int[] nums) {
-        if(nums == null || nums.length == 0) {
-            return false;
-        }
-
         int totalSum = 0;
         for(int i = 0; i < nums.length; i++) {
             totalSum += nums[i];
         }
 
-        if(totalSum % 2 != 0) {
-            // we cannot have two subsets with the same value (because we are working with integers)
-            return false;
-        }
+        //return canPartition(totalSum / 2, 0, nums);
+        return canPartitionBottomUp(totalSum / 2, nums);
 
-        return canPartition(totalSum / 2, 0, nums);
     }
 
-    public boolean canPartition(int targetSum, int index, int[] nums) {
-        // If there is a sum that equals our target sum, we found a subset
-        if(targetSum == 0) {
-            return true;
-        }
-
+    private boolean canPartition(int target, int index, int[] nums)  {
         if(index >= nums.length) {
             return false;
         }
 
-        // Option one: currentIndex is part of equal subset
-        boolean option1 = canPartition(targetSum - nums[index], index + 1, nums);
+        if(target == 0) {
+            return true;
+        }
 
-        // Option two: skip element
-        boolean option2 = canPartition(targetSum, index + 1, nums);
+        // case 1, I pick the number
+        boolean case1 = false;
+        if(nums[index] <= target) {
+            case1 = canPartition(target - nums[index], index + 1, nums);
+        }
 
-        return option1 || option2;
+        // case 2, I skip the number
+        boolean case2 = canPartition(target, index + 1, nums);
+
+        return case1 || case2;
     }
 
-    public boolean canPartitionBottomUp(int targetSum, int[] nums) {
-        boolean[][] dp = new boolean[nums.length][targetSum + 1];
+    private boolean canPartitionBottomUp(int target, int[] nums) {
+        boolean[][] dp = new boolean[nums.length][target + 1];
 
-        // with just one element
-        for(int i = 0; i < nums.length; i++) {
-            if(nums[i] == targetSum) {
-                dp[i][0] = true;
+        // calculate item 0 with capacity i
+        for(int i = 0; i < target; i++) {
+            if(nums[0] == i) {
+                dp[0][i] = true;
             }
         }
 
-        // build table
-        // for each "capacity" (knapsack pattern) check if I can choose the number
-        for(int i = 0; i < nums.length; i++) {
-            for(int j = 1; j < targetSum; j++) {
-                // if I can pick this number
-                boolean option1 = false;
-                boolean option2 = false;
-                if(nums[i] < j) {
-                    option1 = dp[i - 1][j - nums[i]];
+        // now with 1 item with capacity 0 ... j
+        for(int i = 1; i < nums.length; i++) {
+            for(int j = 0; j <= target; j++) {
+                // case 1 I have enough capacity
+                boolean case1 = false;
+                if(nums[i] <= j) {
+                    case1 = dp[i - 1][j - nums[i]];
                 }
 
-                // case2 skip it
-                option2 = dp[i - 1][j];
+                // case 2 I skip
+                boolean case2 = dp[i - 1][j];
 
-                dp[i][j] = option1 || option2;
+                dp[i][j] = case1 || case2;
             }
         }
 
-        return dp[nums.length][targetSum];
+        return dp[nums.length - 1][target];
     }
 }
