@@ -28,6 +28,27 @@ public class MaximumSwap {
      * it until there is one max but then that could be quadratic. A better approach is this one
      * take note of the indexes of each number and then go from max to min checking if there is something
      * more than current number with index > current index
+     *
+     * Pablo's better notes: Basically we are making this O(n) by making the worst case scenario O(n) * O(9)
+     * which is technically O(n). Anyways, think of it this way;
+     *
+     * FIRST, let's note where each number shows up
+     *
+     * 2 -> index 0
+     * 7 -> index 1
+     * 3 -> index 2
+     * 6 -> index 3
+     *
+     * Then we go from 9 to 0 and compare with the number that is in the first position. If index of 9 is
+     * more than index of 0 then swap. Otherwise let's check the index of 8, is it more than index of 0? swap.
+     * For example:
+     *
+     * 2 7 3 6  --> number
+     * 0 1 2 3  --> index
+     *
+     * Let's check from 9 to 0. index of 9? We don't have anything... cool let's keep going. Index of 8? We
+     * don't have anything... let's keep going. Index of 7? Yes, I see we have 1. Is 1 more than 0 which I'm right
+     * now? Yes, then swap it. We are done
      */
     public int maximumSwap(int number) {
         char[] digits = Integer.toString(number).toCharArray();
