@@ -15,6 +15,63 @@ public class LongestPalindromicSubstring {
      * Input: "cbbd"
      * Output: "bb"
      *
+     * Pablo's notes: To understand the DP approach, here is what we need to do. Basically we will have a 2-dimensional
+     * array that represents the following
+     * i = startIndex
+     * j = endIndex
+     * OR "I HAVE A STRING THAT START A POSITION ROW AND ENDS AT POSITION COLUMN"
+     *
+     * For example:
+     *                      end
+     *                0  1  2  3  4
+     *
+     *          0     1
+     *          1        1               -->   c d d p d
+     * start    2           1
+     *          3             1
+     *          4                1
+     *
+     *
+     *      The diagonals means... given a string that starts at i and ends at i. That is the character itself
+     *      For example: string that starts at index 1 and ends at index 1 of c d d p d? Is 'd' Which is a palindrome
+     *
+     *      Now how about a string that starts at 3 and ends at 4? c d d p d == pd. Ok so we proceed as a normal
+     *      palindrome
+     *      p d
+     *      ^ ^  --> p == d Nope, then the max palindrome will be the max of removing end or removing start. In other
+     *      words if we remove start... then a max palindrome of 'd' is the character itself or 1. If we remove end
+     *      then it's the character 'p' or 1 as well. Now let's do a more elaborate example
+     *
+     *      start = 2 end 4 --> c d d p d  =? 'dpd'
+     *                             |_____|
+     *
+     *      d = d? yes, cool so 2 + the substring in between or p. now in the table which point represents a string
+     *      that starts in 'p' and ends in 'p'? Well that is position 3,3 OR start + 1, end - 1
+     *
+     *      Now let's look at the other example
+     *      start 1 end 3 -->  c d d p d   =? 'ddp'
+     *                          |_____|
+     *
+     *      d != p, ok so let's try removing either ends. Our two options are
+     *      start 2 end 3 == dp    ==> this means start + 1, end
+     *      OR
+     *      start 1 end 2  = dd    ==> this means start, end - 1
+     *
+     *
+     *      Graphically this looks like
+     *                     end
+     *                0  1  2     3  4
+     *
+     *          0     1
+     *          1        * ($) <- *   -->   d != p so let's try start 2 end 3
+     *                   |
+     *                   v
+     * start    2       ($)  *
+     *          3             1
+     *          4                   1
+     *
+     *       That shift will explain why we only move 1 start or end in the algorithm. Is so
+     *       we align the start and end appropriately in the matrix
      */
     public String longestPalindrome(String s) {
         return findLongestPalindrome(s, 0, s.length() - 1);
