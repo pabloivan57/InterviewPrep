@@ -1,19 +1,23 @@
 package com.pablan.leetcode.medium;
 
-public class LongestPalindromicSubstring {
+public class LongestPalindromicSubsequence {
 
     /**
-     * Given a string s, find the longest palindromic substring in s. You may assume that the maximum length of s is 1000.
+     * Given a string s, find the longest palindromic subsequence in s. You may assume that the maximum length of s is 1000.
      *
      * Example 1:
      *
-     * Input: "babad"
-     * Output: "bab"
-     * Note: "aba" is also a valid answer.
-     * Example 2:
+     * Input: "abdbca"
+     * Output: 5
+     * Explanation: LPS is "abdba".
      *
-     * Input: "cbbd"
-     * Output: "bb"
+     * Input: = "cddpd"
+     * Output: 3
+     * Explanation: LPS is "ddd".
+     *
+     * Input: = "pqr"
+     * Output: 1
+     * Explanation: LPS could be "p", "q" or "r".
      *
      * Pablo's notes: To understand the DP approach, here is what we need to do. Basically we will have a 2-dimensional
      * array that represents the following

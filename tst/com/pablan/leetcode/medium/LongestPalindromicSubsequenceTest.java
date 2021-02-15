@@ -2,11 +2,11 @@ package com.pablan.leetcode.medium;
 
 import org.junit.Test;
 
-public class LongestPalindromicSubstringTest {
+public class LongestPalindromicSubsequenceTest {
 
     @Test
     public void test() {
-        LongestPalindromicSubstring longestPalindromicSubstring = new LongestPalindromicSubstring();
+        LongestPalindromicSubsequence longestPalindromicSubstring = new LongestPalindromicSubsequence();
         System.out.println(longestPalindromicSubstring.findLPSLength("abdbca"));
         System.out.println(longestPalindromicSubstring.findLPSLength("cddpd"));
         System.out.println(longestPalindromicSubstring.findLPSLength("pqr"));
