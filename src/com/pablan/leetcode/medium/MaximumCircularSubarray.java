@@ -21,9 +21,21 @@ public class MaximumCircularSubarray {
      *
      * Max subarray = Max (Max subarray, Total - min Subarray)
      *
-     * This is because there are 2 cases
-     * 1.- The max subarray is not rotated, and is in the middle of the array (normal Kadane works here)
-     * 2.- The max subarray is rotated, in that case we know total - min Subarray is max
+     * We have 2 scenarios here
+     *
+     * 1.- The maxSubarray is within the array. This is easy
+     * 2.- The maxSubarray has elements from the tail and from the head. This is what we refer to rotated
+     *
+     * Now we align that this is true total_sum - maxSubarray = minSubarray. Perfect, the problem with rotated
+     * array is that we cannot find it with kadane. BUT! the fact that maxSubarray might be on the tail / head
+     * means that the min subarray is within the array. In other words
+     *
+     * Give maxSubarray => has elements from tail / head
+     *
+     * total_sum - maxSubarray = minSubarray OR total_sum - minSubarray = maxSubarray!!!
+     *
+     * We can do minSubarray with kadane because we know it's within the array. Cool, so now
+     * going back to the question we simply go brute force and we try both scenarios
      *
      */
     public int maxSubarraySumCircular(int[] A) {
