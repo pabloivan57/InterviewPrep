@@ -34,6 +34,25 @@ public class NumberOfConnectedComponents {
      *
      * You can assume that no duplicate edges will appear in edges.
      * Since all edges are undirected, [0, 1] is the same as [1, 0] and thus will not appear together in edges.
+     *
+     * At first glance you might think just counting the sources is enough. But here is the counter example:
+     *
+     * [[1,0],[2,0]]
+     *
+     *  1
+     *    \
+     *     \
+     *      0
+     *     /
+     *    /
+     *  2
+     *
+     *  In the case above the inDegree for 1 and 2 is 0. So this will make a mistake thinking there are 2 components
+     *  if we just count inDegree. But in reality there is only 1. Therefore the solution is to assume the graph is
+     *  bidirectional, but avoid the circles by checking if you're not coming from the parent node
+     *
+     *  0  -- > 1
+     *  0  <--  1
      */
     public int countComponents(int n, int[][] edges) {
         Map<Integer, List<Integer>> graph = new HashMap<>();
