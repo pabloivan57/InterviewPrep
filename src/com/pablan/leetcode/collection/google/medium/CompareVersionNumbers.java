@@ -54,9 +54,9 @@ public class CompareVersionNumbers {
         int s1 = 0;
         int s2 = 0;
 
-        while(s1 < version1.length() && s2 < version2.length()) {
+        while (s1 < version1.length() || s2 < version2.length()) {
             int version1Val = 0;
-            while(s1 < version1.length() && version1.charAt(s1) != '.') {
+            while (s1 < version1.length() && version1.charAt(s1) != '.') {
                 version1Val = (version1Val * 10) + version1.charAt(s1) - '0';
                 s1++;
             }
@@ -65,7 +65,7 @@ public class CompareVersionNumbers {
             s1++;
 
             int version2Val = 0;
-            while(s2 < version2.length() && version2.charAt(s2) != '.') {
+            while (s2 < version2.length() && version2.charAt(s2) != '.') {
                 version2Val = (version2Val * 10) + version2.charAt(s2) - '0';
                 s2++;
             }
@@ -73,30 +73,13 @@ public class CompareVersionNumbers {
             // at this point I'm at dot
             s2++;
 
-            if(version1Val > version2Val) {
+            if (version1Val > version2Val) {
                 return 1;
             } else if (version1Val < version2Val) {
                 return -1;
             }
         }
 
-        // at this point one of them still has to be parsed
-        int lastVersionVal = 0;
-        int result = 0;
-        if(s1 < version1.length()) {
-            while(s1 < version1.length() && version1.charAt(s1) != '.') {
-                lastVersionVal = (lastVersionVal * 10) + version1.charAt(s1) - '0';
-                s1++;
-            }
-            result = lastVersionVal > 0 ? 1 : 0;
-        } else {
-            while(s2 < version2.length() && version2.charAt(s2) != '.') {
-                lastVersionVal = (lastVersionVal * 10) + version2.charAt(s2) - '0';
-                s2++;
-            }
-            result = lastVersionVal > 0 ? -1 : 0;
-        }
-
-        return result;
+        return 0;
     }
 }
