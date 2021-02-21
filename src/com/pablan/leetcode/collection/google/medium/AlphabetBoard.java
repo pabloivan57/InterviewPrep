@@ -1,6 +1,7 @@
 package com.pablan.leetcode.collection.google.medium;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -75,6 +76,20 @@ public class AlphabetBoard {
     };
 
     public String alphabetBoardPath(String target) {
+        int row = 0, col = 0;
+        StringBuilder sb = new StringBuilder();
+        for (char ch : target.toCharArray()) {
+            int row1 = (ch - 'a') / 5, col1 = (ch - 'a') % 5; // -> this because z is not a full row
+            sb.append(String.join("", Collections.nCopies(Math.max(0, row - row1), "U")) +
+                    String.join("", Collections.nCopies(Math.max(0, col1 - col), "R")) +
+                    String.join("", Collections.nCopies(Math.max(0, col - col1), "L")) +
+                    String.join("", Collections.nCopies(Math.max(0, row1 - row), "D")) + "!");
+            row = row1; col = col1;
+        }
+        return sb.toString();
+    }
+
+    public String alphabetBoardPathLame(String target) {
 
         Map<Character, int[]> charPositions = new HashMap<>();
 
