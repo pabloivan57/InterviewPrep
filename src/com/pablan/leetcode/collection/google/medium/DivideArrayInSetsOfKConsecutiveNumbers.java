@@ -34,6 +34,35 @@ public class DivideArrayInSetsOfKConsecutiveNumbers {
      * You could do this with a Hashmap, but it's definitely more elegant to
      * use a Treemap. Remember, a treemap keeps a hashmap but with ordered keys
      *
+     * More information. The key here is keep track of occurrences. Now ask,
+     * for the smallest number in the set. Can I find the consecutives i + 2 and i + 3.. i + k?
+     *
+     * Cool, if one of the occurrences reach 0 then remove it.
+     * Now, do this until you have no more occurrences, at any point in time if you don't have
+     * i + 2, i + 3... i + k then return false.
+     *
+     * For example:
+     *
+     * 3,3,2,2,1,1
+     *
+     * 3 --> 2
+     * 2 --> 2   k = 3
+     * 1 --> 2
+     *
+     * Get the smallest, 1. Do I have i + 1 and i + 2. Yes I do, then remove occurrences for them
+     *
+     * 3 -> 1
+     * 2 -> 1
+     * 1 -> 1
+     *
+     * Get the smallest again, 1. Fo I have i + 1, i + 2. Yes, cool then remove the values from the occurrences
+     *
+     * []
+     *
+     * Since occurrences is empty I managed to fit in all numbers in consecutive sequences of k.
+     *
+     * TreeMap is easy to use here because it keeps a sorted map. Otherwise you could have sorted the array as well
+     *
      */
     public boolean isPossibleDivide(int[] nums, int k) {
         TreeMap<Integer, Integer> occurrences = new TreeMap<>();
