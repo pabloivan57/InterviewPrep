@@ -71,6 +71,7 @@ public class LongestConsecutiveSequenceDiffWithLimit {
     public int longestSubarrayDeque(int[] A, int limit) {
         Deque<Integer> maxd = new ArrayDeque<>();
         Deque<Integer> mind = new ArrayDeque<>();
+        int res = 0;
         int i = 0, j;
         for (j = 0; j < A.length; ++j) {
             while (!maxd.isEmpty() && A[j] > maxd.peekLast()) maxd.pollLast();
@@ -82,7 +83,8 @@ public class LongestConsecutiveSequenceDiffWithLimit {
                 if (mind.peek() == A[i]) mind.poll();
                 ++i;
             }
+            res = Math.max(res, j - i + 1);
         }
-        return j - i;
+        return res;
     }
 }
