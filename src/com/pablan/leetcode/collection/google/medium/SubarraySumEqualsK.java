@@ -30,6 +30,22 @@ public class SubarraySumEqualsK {
      *
      */
     public int subarraySum(int[] nums, int k) {
+        Map<Integer, Integer> sumSeenSoFar = new HashMap<>();
+        sumSeenSoFar.put(0, 1); // This is a default, if we find k - sum[0, i] == 0 then that
+                                // what this means is that 0, i is exactly k. In example [1, 1, 1]  k = 2
+                                // then this use case will be 1, 1
 
+        int sum = 0;
+        int sequencesFound = 0;
+        for(int i =  0; i < nums.length; i++) {
+            sum += nums[i];
+            if(sumSeenSoFar.containsKey(sum - k)) {
+                sequencesFound += sumSeenSoFar.get(sum - k);
+            }
+
+            sumSeenSoFar.put(sum, sumSeenSoFar.getOrDefault(sum, 0) + 1);
+        }
+
+        return sequencesFound;
     }
 }
