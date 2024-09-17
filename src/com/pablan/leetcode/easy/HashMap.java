@@ -2,7 +2,6 @@ package com.pablan.leetcode.easy;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Design a HashMap without using any built-in hash table libraries.
@@ -40,7 +39,7 @@ import java.util.Map;
  * we simply create a new map with n * 2 buckets and we add each one of the old values in there
  *
  */
-public class HashMap {
+public class HashMap<C, C1> {
 
     List<HashMapNode> buckets;
 

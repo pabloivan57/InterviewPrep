@@ -6,7 +6,7 @@ public class HashMapTest {
 
     @Test
     public void test() {
-        HashMap hashMap = new HashMap();
+        HashMap<Integer, Integer> hashMap = new HashMap<Integer, Integer>();
 
         hashMap.put(1, 1);
         hashMap.put(2, 2);
